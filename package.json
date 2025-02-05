@@ -1,0 +1,12 @@
+{
+  "name": "poke-weater-fight",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "clean": "pnpm -r exec rm -rf dist node_modules"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
