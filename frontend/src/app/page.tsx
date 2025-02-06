@@ -1,6 +1,38 @@
-import Image from "next/image";
+"use client"
+
+import { authClient } from "@/lib/auth"
+import Image from "next/image"
 
 export default function Home() {
+  const signUp = async () =>
+    await authClient.signUp.email(
+      {
+        email: "test@localhost.local",
+        name: "test",
+        password: "123456789",
+      },
+      {
+        onError: (ctx) => {
+          alert(ctx.error)
+        },
+      }
+    )
+
+  const signIn = async () =>
+    await authClient.signIn.email(
+      {
+        email: "test@localhost.local",
+        password: "123456789",
+      },
+      {
+        onError: (ctx) => {
+          alert(ctx.error)
+        },
+      }
+    )
+
+  const session = authClient.useSession()
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -12,6 +44,8 @@ export default function Home() {
           height={38}
           priority
         />
+        <pre>{JSON.stringify(session, null, 2)}</pre>
+        <button onClick={() => authClient.signOut()}>Sign out</button>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
@@ -21,6 +55,8 @@ export default function Home() {
             .
           </li>
           <li>Save and see your changes instantly.</li>
+          <button onClick={async () => await signUp()}>Sign up</button>
+          <button onClick={() => signIn()}>Sign in</button>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
@@ -97,5 +133,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  );
+  )
 }
