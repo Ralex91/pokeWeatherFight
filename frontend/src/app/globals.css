@@ -7,3 +7,15 @@
   --foreground: #171717;
   --pokeBlue: #2b72b9;
 }
+
+.message {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,39 +1,9 @@
 "use client"
 
-import { authClient } from "@/lib/auth"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function Home() {
-  const signUp = async () =>
-    await authClient.signUp.email(
-      {
-        email: "test@localhost.local",
-        name: "test",
-        password: "123456789",
-      },
-      {
-        onError: (ctx) => {
-          alert(ctx.error)
-        },
-      }
-    )
-
-  const signIn = async () =>
-    await authClient.signIn.email(
-      {
-        email: "test@localhost.local",
-        password: "123456789",
-      },
-      {
-        onError: (ctx) => {
-          alert(ctx.error)
-        },
-      }
-    )
-
-  const session = authClient.useSession()
-
   return (
     <main className="flex-1 flex flex-col justify-center items-center">
       <Image
@@ -42,7 +12,7 @@ export default function Home() {
         width={300}
         height={300}
       ></Image>
-      <h2 className="text-3xl font-semibold text-pokeBlue">Weater Battle</h2>
+      <h2 className="text-3xl font-semibold text-pokeBlue">Weather Battle</h2>
       <div className="flex gap-5 mt-10">
         <Link
           href="/signup"

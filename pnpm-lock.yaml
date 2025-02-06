@@ -26,6 +26,9 @@ importers:
       hono:
         specifier: ^4.6.20
         version: 4.6.20
+      ky:
+        specifier: ^1.7.4
+        version: 1.7.4
       kysely:
         specifier: ^0.27.5
         version: 0.27.5
@@ -1451,6 +1454,10 @@ packages:
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
+
+  ky@1.7.4:
+    resolution: {integrity: sha512-zYEr/gh7uLW2l4su11bmQ2M9xLgQLjyvx58UyNM/6nuqyWFHPX5ktMjvpev3F8QWdjSsHUpnWew4PBCswBNuMQ==}
+    engines: {node: '>=18'}
 
   kysely-ctl@0.10.1:
     resolution: {integrity: sha512-tB2mGV/MbfaQC6Lo582Rs2OdtfX23ueWDscCSDT42Iy8pYHYbhMy9ncXU35ee8LQz4BO2apQihyY8rDProP+9w==}
@@ -3763,6 +3770,8 @@ snapshots:
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
+
+  ky@1.7.4: {}
 
   kysely-ctl@0.10.1(kysely@0.27.5):
     dependencies:

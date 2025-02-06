@@ -1,6 +1,5 @@
 import type { Generated } from "kysely"
 
-// Types des tables individuelles
 export interface User {
   id: Generated<string>
   name: string
@@ -47,7 +46,6 @@ export interface Verification {
   updatedAt: Date | null
 }
 
-// Type complet de la base de données pour Kysely
 export interface Database {
   user: User
   account: Account

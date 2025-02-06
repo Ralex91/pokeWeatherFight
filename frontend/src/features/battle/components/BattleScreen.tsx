@@ -59,7 +59,7 @@ const BattleScreen = () => {
         </div>
       </div>
 
-      <div className="bg-gray-700/80 border-t-2 border-gray-200/80 text-white font-semibold text-lg absolute bottom-0 w-full p-4 h-28 rounded-t-lg">
+      <div className="message bg-gray-700/80 border-t-2 border-gray-200/80 text-white font-semibold text-lg absolute bottom-0 w-full p-4 h-28 rounded-t-lg">
         <p>Eevee use quick attack</p>
       </div>
     </div>
