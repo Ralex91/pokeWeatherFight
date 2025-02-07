@@ -39,12 +39,8 @@ export type Battle = {
   messages: string[]
 }
 
-export type WeatherEffect = {
-  [key: string]: number
-}
-
-export type WeatherAttackMap = {
-  name: string
-  codes: number[]
-  effects: WeatherEffect
+export enum BattleStuts {
+  IN_PROGRESS = "In progress",
+  WIN = "Win",
+  LOSE = "Lose",
 }

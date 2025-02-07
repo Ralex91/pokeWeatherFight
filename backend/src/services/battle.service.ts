@@ -17,10 +17,9 @@ import { getRandomPokemon } from "./pokemon.service.ts"
 import { getWeatherCode } from "./weather.service.ts"
 
 let gameState: Battle = structuredClone(GAME_INIT_STATE)
-let messageFeed: string[] = []
 
 const addMessage = (prefix: string, message: string) => {
-  messageFeed.push(`${prefix}: ${message}`)
+  gameState.messages.push(`${prefix}: ${message}`)
 }
 
 export const initBattle = async () => {
@@ -153,7 +152,7 @@ export const playTurn = async (action: Action) => {
   const defender = isPlayer ? gameState.opponent : gameState.player
 
   if (isPlayer) {
-    messageFeed = []
+    gameState.messages = []
   }
 
   if (action.type === ActionType.ATTACK) {
@@ -187,8 +186,5 @@ export const playTurn = async (action: Action) => {
     }
   }
 
-  return {
-    gameState,
-    messages: messageFeed,
-  }
+  return gameState
 }

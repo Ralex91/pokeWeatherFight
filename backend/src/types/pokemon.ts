@@ -1,4 +1,5 @@
 export type PokemonApiResponse = {
+  id: number
   name: string
   types: {
     type: {

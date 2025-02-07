@@ -15,6 +15,7 @@ export const GAME_INIT_STATE: Battle = {
     playedIndex: 0,
     pokemons: [],
   },
+  messages: [],
 }
 
 export const WEATHER_ATTACK_MAP: WeatherAttackMap[] = [

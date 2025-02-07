@@ -20,6 +20,7 @@ export const getRandomPokemon: () => Promise<Pokemon> = async () => {
   )
 
   return {
+    id: response.id,
     name: response.name,
     types: response.types.map((t) => t.type.name),
     hp: response.stats[0].base_stat * 2,
