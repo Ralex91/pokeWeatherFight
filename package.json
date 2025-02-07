@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "pnpm -r run dev",
     "build": "pnpm -r run build",
+    "start": "pnpm -r run start",
     "clean": "pnpm -r exec rm -rf dist node_modules"
   },
   "devDependencies": {
