@@ -29,14 +29,14 @@ const Page = () => {
       <div className="flex-1 divide-y-2 divide-gray-200">
         <div>
           <h2 className="text-xl drop-shadow-md font-bold">Active Battle</h2>
-          <div className="flex flex-col items-stretch gap-1 my-3">
+          <div className="flex flex-col items-stretch gap-2 my-3">
             <BattleRow status={BattleStuts.IN_PROGRESS} />
             <BattleRow status={BattleStuts.IN_PROGRESS} />
           </div>
         </div>
         <div>
           <h2 className="text-xl drop-shadow-md font-bold">Battle Hisory</h2>
-          <div className="flex flex-col items-stretch gap-1 my-3">
+          <div className="flex flex-col items-stretch gap-2 my-3">
             {Array.from({ length: 20 }, (_, i) => (
               <BattleRow status={BattleStuts.WIN} key={i} />
             ))}

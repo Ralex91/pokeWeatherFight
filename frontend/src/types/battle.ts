@@ -4,10 +4,15 @@ export type Move = {
   type: string
 }
 
+export type PokemonType = {
+  id: number
+  name: string
+}
+
 export type Pokemon = {
   id: number
   name: string
-  types: string[]
+  types: PokemonType[]
   hp: number
   maxHp: number
   moves: Move[]

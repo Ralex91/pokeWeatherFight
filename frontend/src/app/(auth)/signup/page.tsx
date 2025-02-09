@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod" // Ajustez le chemin d'import selon votre structure
+import { z } from "zod"
 
 type FormData = {
   name: string

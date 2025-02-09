@@ -1,6 +1,8 @@
 import BottomBar from "@/components/BottomBar"
+import TanstackProvider from "@/providers/TanStackProvider"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { Toaster } from "react-hot-toast"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -28,10 +30,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex flex-col min-h-screen max-w-lg mx-auto relative">
-          <div className="flex-1 flex flex-col">{children}</div>
-          <BottomBar />
-        </div>
+        <TanstackProvider>
+          <div className="flex flex-col min-h-screen max-w-lg mx-auto relative">
+            <div className="flex-1 flex flex-col">{children}</div>
+            <BottomBar />
+          </div>
+          <Toaster />
+        </TanstackProvider>
       </body>
     </html>
   )
