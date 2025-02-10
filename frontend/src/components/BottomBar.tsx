@@ -10,7 +10,7 @@ const BottomBar = () => {
       <Link className="text-gray-800" href="/game/team">
         <WalletCards />
       </Link>
-      <Link className="text-gray-800" href="/game/friends">
+      <Link className="text-gray-800" href="/game/friend">
         <UsersRound />
       </Link>
       <Link className="text-gray-800" href="/game/battle">

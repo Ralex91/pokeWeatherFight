@@ -36,8 +36,6 @@ export async function up(db: Kysely<any>) {
       col.references("user.id").onDelete("cascade").notNull()
     )
     .addColumn("current_hp", "integer", (col) => col.notNull())
-    .addColumn("position", "integer", (col) => col.notNull())
-    .addColumn("is_active", "boolean", (col) => col.notNull().defaultTo(false))
     .execute()
 }
 

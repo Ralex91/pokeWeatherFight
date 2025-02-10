@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server"
 import { Hono } from "hono"
 import { cors } from "hono/cors"
 import battleController from "./controllers/battle.controller.ts"
+import friendController from "./controllers/friend.controller.ts"
 import pokemonController from "./controllers/pokemon.controller.ts"
 import teamController from "./controllers/team.controller.ts"
 import { auth, authMiddleware } from "./lib/auth.ts"
@@ -31,6 +32,7 @@ app
   .route("/battle", battleController)
   .route("/pokemon", pokemonController)
   .route("/team", teamController)
+  .route("/friend", friendController)
 
 console.log(`Server is running on http://localhost:${env.PORT}`)
 

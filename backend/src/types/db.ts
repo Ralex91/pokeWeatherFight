@@ -81,6 +81,13 @@ export interface Team {
   position: number
 }
 
+export interface Friend {
+  id: Generated<number>
+  user_id: string
+  friend_id: string
+  accepted: Generated<boolean>
+}
+
 export enum BattleStatus {
   PENDING = "pending",
   ACTIVE = "active",
@@ -115,6 +122,7 @@ export interface Database {
   move: Move
   pokemon_move: Pokemon_move
   team: Team
+  friend: Friend
   battle: Battle
   battle_pokemon: Battle_pokemon
 }

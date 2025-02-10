@@ -45,7 +45,7 @@ const Page = () => {
       </div>
       <div className="sticky bottom-16 ml-auto mr-2">
         <button
-          className="bg-gradient-to-b from-[#f8ad81] to-[#fd9319] hover:brightness-90 p-2 aspect-square shadow-md rounded-full"
+          className="bg-gradient-to-b from-blue-500 to-blue-700 hover:brightness-90 p-2 aspect-square shadow-md rounded-full"
           onClick={handleCreateBattle}
         >
           <div className="text-white text-lg font-bold flex items-center justify-center gap-2 w-10">
