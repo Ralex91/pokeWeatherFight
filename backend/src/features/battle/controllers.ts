@@ -1,13 +1,14 @@
-import { createBattle, playTurn } from "@/services/battle.service.ts"
-import { ActionType } from "@/types/battle.ts"
+import { createBattle } from "@/features/battle/repositories.ts"
 import { HonoContext } from "@/types/hono.ts"
 import { zValidator } from "@hono/zod-validator"
 import { Hono } from "hono"
 import { z } from "zod"
+import { playTurn } from "./services.ts"
+import { ActionType } from "./types.ts"
 
-const battleController = new Hono<HonoContext>()
+const router = new Hono<HonoContext>()
 
-battleController.post(
+router.post(
   "/",
   zValidator(
     "json",
@@ -28,7 +29,7 @@ battleController.post(
   }
 )
 
-battleController.post(
+router.post(
   "/action",
   zValidator(
     "json",
@@ -45,4 +46,4 @@ battleController.post(
   }
 )
 
-export default battleController
+export default router

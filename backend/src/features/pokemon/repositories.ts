@@ -1,6 +1,6 @@
 import { db } from "@/lib/db.ts"
-import { Pokemon } from "@/types/battle.ts"
 import { jsonArrayFrom } from "kysely/helpers/postgres"
+import { Pokemon } from "./types.ts"
 
 interface Params {
   name?: string

@@ -1,11 +1,11 @@
-import { getPokemons, getPokemonTypes } from "@/services/pokemon.service.ts"
 import { zValidator } from "@hono/zod-validator"
 import { Hono } from "hono"
 import { z } from "zod"
+import { getPokemons, getPokemonTypes } from "./repositories.ts"
 
-const pokemonController = new Hono()
+const router = new Hono()
 
-pokemonController.get(
+router.get(
   "/",
   zValidator(
     "query",
@@ -30,10 +30,10 @@ pokemonController.get(
   }
 )
 
-pokemonController.get("/types", async (c) => {
+router.get("/types", async (c) => {
   const types = await getPokemonTypes()
 
   return c.json(types)
 })
 
-export default pokemonController
+export default router

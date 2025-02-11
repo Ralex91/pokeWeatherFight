@@ -1,18 +1,7 @@
+import { getPokemon } from "@/features/pokemon/repositories.ts"
+import { Pokemon } from "@/features/pokemon/types.ts"
 import { db } from "@/lib/db.ts"
-import { Pokemon } from "@/types/battle.ts"
 import { sql } from "kysely"
-import { getPokemon } from "./pokemon.service.ts"
-
-interface UpdateTeamParams {
-  userId: string
-  index: number
-  pokemonId: number
-}
-
-interface DeleteTeamParams {
-  userId: string
-  index: number
-}
 
 export const getTeam = async (userId: string): Promise<Pokemon[]> => {
   const team = await db
@@ -28,7 +17,9 @@ export const getTeam = async (userId: string): Promise<Pokemon[]> => {
     })
   )
 
-  return pokemons.filter((p): p is Pokemon => p !== undefined)
+  return pokemons.filter(
+    (p: Pokemon | undefined): p is Pokemon => p !== undefined
+  )
 }
 
 export async function checkPokemonInTeam(
@@ -57,6 +48,12 @@ export async function checkPositionExists(
     .execute()
 
   return isIndexExists.length > 0
+}
+
+type UpdateTeamParams = {
+  userId: string
+  index: number
+  pokemonId: number
 }
 
 export async function updateTeamPosition(params: UpdateTeamParams) {
@@ -96,6 +93,11 @@ export async function updateTeam(params: UpdateTeamParams) {
     pokemon,
     releaseIndex: index,
   }
+}
+
+type DeleteTeamParams = {
+  userId: string
+  index: number
 }
 
 export async function deleteFromTeam(params: DeleteTeamParams) {

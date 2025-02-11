@@ -1,21 +1,4 @@
-export type Move = {
-  name: string
-  power: number
-  type: string
-}
-
-export type PokemonType = {
-  id: number
-  name: string
-}
-
-export type Pokemon = {
-  id: number
-  name: string
-  types: PokemonType[]
-  maxHp: number
-  moves: Move[]
-}
+import { Pokemon } from "@/features/pokemon/types.ts"
 
 export interface PokemonInBattle extends Pokemon {
   current_hp: number

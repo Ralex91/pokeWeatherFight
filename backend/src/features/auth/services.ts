@@ -1,7 +1,7 @@
+import { dialect } from "@/lib/db.ts"
+import env from "@/lib/env.ts"
 import { betterAuth } from "better-auth"
 import { Context, Next } from "hono"
-import { dialect } from "./db.js"
-import env from "./env.ts"
 
 export const auth = betterAuth({
   trustedOrigins: [env.BETTER_AUTH_URL],

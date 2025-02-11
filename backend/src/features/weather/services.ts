@@ -1,5 +1,5 @@
-import { WeatherApiResponse } from "@/types/weather.ts"
 import ky from "ky"
+import { WeatherApiResponse } from "./types.ts"
 
 export const getWeatherCode = async () => {
   const coordsOfParis = { lat: 48.8566, lon: 2.3522 }

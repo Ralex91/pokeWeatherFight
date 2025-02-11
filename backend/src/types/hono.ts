@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth.ts"
+import { auth } from "@/features/auth/services.ts"
 
 export type HonoContext = {
   Variables: {

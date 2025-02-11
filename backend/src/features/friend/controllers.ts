@@ -1,18 +1,18 @@
+import { getUser } from "@/features/user/repositories.ts"
+import { HonoContext } from "@/types/hono.ts"
+import { zValidator } from "@hono/zod-validator"
+import { Hono } from "hono"
+import { z } from "zod"
 import {
   acceptFriend,
   addFriend,
   deleteFriend,
   getUserFriend,
-} from "@/services/friend.service.ts"
-import { getUser } from "@/services/user.service.ts"
-import { HonoContext } from "@/types/hono.ts"
-import { zValidator } from "@hono/zod-validator"
-import { Hono } from "hono"
-import { z } from "zod"
+} from "./repositories.ts"
 
-const friendController = new Hono<HonoContext>()
+const router = new Hono<HonoContext>()
 
-friendController.get("/", async (c) => {
+router.get("/", async (c) => {
   const user = c.get("user")
 
   if (!user) {
@@ -24,7 +24,7 @@ friendController.get("/", async (c) => {
   return c.json(friends)
 })
 
-friendController.post(
+router.post(
   "/",
   zValidator(
     "json",
@@ -59,7 +59,7 @@ friendController.post(
   }
 )
 
-friendController.patch(
+router.patch(
   "/",
   zValidator(
     "json",
@@ -93,7 +93,7 @@ friendController.patch(
   }
 )
 
-friendController.delete(
+router.delete(
   "/",
   zValidator(
     "json",
@@ -127,4 +127,4 @@ friendController.delete(
   }
 )
 
-export default friendController
+export default router

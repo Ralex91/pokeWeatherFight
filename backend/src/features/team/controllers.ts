@@ -1,12 +1,12 @@
-import { deleteFromTeam, getTeam, updateTeam } from "@/services/team.service.ts"
 import { HonoContext } from "@/types/hono.ts"
 import { zValidator } from "@hono/zod-validator"
 import { Hono } from "hono"
 import { z } from "zod"
+import { deleteFromTeam, getTeam, updateTeam } from "./repositories.ts"
 
-const teamController = new Hono<HonoContext>()
+const router = new Hono<HonoContext>()
 
-teamController.get("/", async (c) => {
+router.get("/", async (c) => {
   const user = c.get("user")
 
   if (!user) {
@@ -18,7 +18,7 @@ teamController.get("/", async (c) => {
   return c.json(team)
 })
 
-teamController.patch(
+router.patch(
   "/",
   zValidator(
     "json",
@@ -51,7 +51,7 @@ teamController.patch(
   }
 )
 
-teamController.delete(
+router.delete(
   "/",
   zValidator(
     "json",
@@ -77,4 +77,4 @@ teamController.delete(
   }
 )
 
-export default teamController
+export default router
