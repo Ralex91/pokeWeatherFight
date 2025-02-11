@@ -1,36 +1,28 @@
 "use client"
+
 import InputField from "@/components/forms/InputField"
-import { signIn } from "@/lib/auth"
+import { signInSchema } from "@/features/auth/schemas"
+import { signInSchemaType } from "@/features/auth/types"
+import { signIn } from "@/features/auth/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-type FormData = {
-  email: string
-  password: string
-}
-
-const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, { message: "Password is required" }),
-})
 
 const Page = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string | null>()
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<signInSchemaType>({
     defaultValues: {
       email: "",
       password: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(signInSchema),
   })
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: signInSchemaType) => {
     setErrorMessage(null)
     const { error } = await signIn.email(
       {
@@ -53,14 +45,14 @@ const Page = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-stretch gap-5 w-full"
       >
-        <InputField<FormData>
+        <InputField<signInSchemaType>
           control={control}
           label="Email"
           name="email"
           type="email"
           placeholder="jhon.doe@example.com"
         />
-        <InputField<FormData>
+        <InputField<signInSchemaType>
           control={control}
           label="Password"
           name="password"

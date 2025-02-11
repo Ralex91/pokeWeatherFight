@@ -1,14 +1,12 @@
 "use client"
 
-import AddFirend from "@/components/friend/AddFirend"
-import FriendRow from "@/components/friend/FriendRow"
-import { useSession } from "@/lib/auth"
-import { useFriend } from "@/services/friend"
-import { Friend } from "@/types/friend"
+import AddFirend from "@/features/friend/components/AddFirend"
+import FriendRow from "@/features/friend/components/FriendRow"
+import { useFriend } from "@/features/friend/services"
+import { Friend } from "@/features/friend/types"
 import { Frown } from "lucide-react"
 
 const Page = () => {
-  const { data: session } = useSession()
   const { data, isLoading, isError } = useFriend()
 
   return (

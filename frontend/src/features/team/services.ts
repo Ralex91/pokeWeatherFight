@@ -1,7 +1,7 @@
 "use client"
 
-import { client } from "@/lib/fetch"
-import { Pokemon } from "@/types/battle"
+import { Pokemon } from "@/features/pokemon/types"
+import { client } from "@/utils/fetch"
 import { createErrorHandler } from "@/utils/query"
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 
@@ -41,7 +41,6 @@ export const useDeleteFromTeam = (queryClient: QueryClient) =>
         json: { index },
       }),
     onSuccess: () => {
-      console.log("Updated team")
       queryClient.invalidateQueries({
         queryKey: ["team"],
       })

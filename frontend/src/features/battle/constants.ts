@@ -1,5 +1,5 @@
-import { BattleStuts } from "@/types/battle"
 import { Play, Trophy, X } from "lucide-react"
+import { BattleStuts } from "./types"
 
 export const BATTLE_STATUS = {
   [BattleStuts.IN_PROGRESS]: {

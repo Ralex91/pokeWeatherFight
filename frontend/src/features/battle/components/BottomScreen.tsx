@@ -1,11 +1,11 @@
 "use client"
 
-import MoveList from "@/components/battle/MoveList"
-import PokemonList from "@/components/battle/PokemonList"
-import { useBattleStore } from "@/stores/useBattleStore"
+import { useBattleStore } from "@/features/battle/stores/useBattleStore"
 import { Swords, WalletCards } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import MoveList from "./MoveList"
+import PokemonList from "./PokemonList"
 
 const BottomScreen = () => {
   const {

@@ -12,7 +12,6 @@ export const handleQueryError = async (error: QueryError): Promise<string> => {
   if (error instanceof HTTPError) {
     try {
       const errorData = (await error.response.json()) as ServerError
-      console.error("Server error:", errorData)
 
       return errorData.error || "Something went wrong"
     } catch (error) {

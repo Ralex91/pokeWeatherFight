@@ -1,8 +1,8 @@
 "use client"
 
-import PokemonCard from "@/components/team/PokemonCard"
-import { usePokemon, usePokemonTypes } from "@/services/pokemon"
-import { useUpdateTeam } from "@/services/team"
+import { usePokemon, usePokemonTypes } from "@/features/pokemon/services"
+import PokemonCard from "@/features/team/components/PokemonCard"
+import { useUpdateTeam } from "@/features/team/services"
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"

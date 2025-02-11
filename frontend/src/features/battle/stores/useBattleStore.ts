@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { Battle } from "../types/battle"
+import { Battle } from "./../types"
 
 type GameStateStore = {
   gameState: Battle | null

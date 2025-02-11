@@ -1,5 +1,5 @@
-import { Pokemon } from "@/types/battle"
-import { getPokemonImage } from "@/utils/pokemon"
+import { Pokemon } from "@/features/pokemon/types"
+import { getPokemonImage } from "@/features/pokemon/utils"
 import Image from "next/image"
 
 type Props = {

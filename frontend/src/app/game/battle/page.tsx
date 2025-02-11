@@ -1,9 +1,9 @@
 "use client"
 
-import BattleRow from "@/components/battle/BattleRow"
-import { client } from "@/lib/fetch"
-import { useBattleStore } from "@/stores/useBattleStore"
-import { Battle, BattleStuts } from "@/types/battle"
+import BattleRow from "@/features/battle/components/BattleRow"
+import { useBattleStore } from "@/features/battle/stores/useBattleStore"
+import { Battle, BattleStuts } from "@/features/battle/types"
+import { client } from "@/utils/fetch"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 

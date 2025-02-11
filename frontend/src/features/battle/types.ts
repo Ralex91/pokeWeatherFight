@@ -1,21 +1,7 @@
-export type Move = {
-  name: string
-  power: number
-  type: string
-}
+import { Pokemon } from "@/features/pokemon/types"
 
-export type PokemonType = {
-  id: number
-  name: string
-}
-
-export type Pokemon = {
-  id: number
-  name: string
-  types: PokemonType[]
-  hp: number
-  maxHp: number
-  moves: Move[]
+export interface PokemonInBattle extends Pokemon {
+  current_hp: number
 }
 
 export enum PlayerType {
@@ -26,7 +12,7 @@ export enum PlayerType {
 export type Player = {
   name: string
   playedIndex: number
-  pokemons: Pokemon[]
+  pokemons: PokemonInBattle[]
 }
 
 export enum ActionType {

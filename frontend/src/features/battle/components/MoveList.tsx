@@ -1,9 +1,10 @@
 "use client"
 
-import { client } from "@/lib/fetch"
-import { useBattleStore } from "@/stores/useBattleStore"
-import { ActionType, Battle, Move } from "@/types/battle"
+import { useBattleStore } from "@/features/battle/stores/useBattleStore"
+import { Move } from "@/features/pokemon/types"
+import { client } from "@/utils/fetch"
 import { ArrowLeft } from "lucide-react"
+import { ActionType, Battle } from "./../types"
 
 type Prop = {
   moves: Move[]

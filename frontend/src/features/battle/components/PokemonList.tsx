@@ -1,14 +1,14 @@
 "use client"
 
-import { client } from "@/lib/fetch"
-import { useBattleStore } from "@/stores/useBattleStore"
-import { Battle, Pokemon } from "@/types/battle"
+import { useBattleStore } from "@/features/battle/stores/useBattleStore"
+import { client } from "@/utils/fetch"
 import clsx from "clsx"
 import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
+import { Battle, PokemonInBattle } from "./../types"
 
 type Prop = {
-  pokemons: Pokemon[]
+  pokemons: PokemonInBattle[]
   playedIndex: number
 }
 
@@ -45,7 +45,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
             onClick={handleSwitch(i)}
             className={clsx(
               {
-                "pointer-events-none brightness-75": p.hp <= 0,
+                "pointer-events-none brightness-75": p.current_hp <= 0,
               },
               {
                 "pointer-events-none animate-pulse":
@@ -64,7 +64,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
             <div>
               <p className="capitalize font-semibold">{p.name}</p>
               <p>
-                {p.hp} / {p.maxHp}
+                {p.current_hp} / {p.maxHp}
               </p>
             </div>
           </button>

@@ -1,7 +1,7 @@
-import { client } from "@/lib/fetch"
-import { Friend, Friends } from "@/types/friend"
+import { client } from "@/utils/fetch"
 import { createErrorHandler } from "@/utils/query"
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { Friend, Friends } from "./types"
 
 export const useFriend = () =>
   useQuery<Friends>({

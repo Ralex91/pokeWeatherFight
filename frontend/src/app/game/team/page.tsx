@@ -1,7 +1,7 @@
 "use client"
 
-import TeamSlot from "@/components/team/TeamSlot"
-import { useTeam } from "@/services/team"
+import TeamSlot from "@/features/team/components/TeamSlot"
+import { useTeam } from "@/features/team/services"
 
 const Page = () => {
   const { data, isLoading, isError } = useTeam()

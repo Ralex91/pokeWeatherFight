@@ -1,13 +1,13 @@
 "use client"
 
-import { useDeleteFromTeam } from "@/services/team"
-import { Pokemon } from "@/types/battle"
-import { getPokemonImage } from "@/utils/pokemon"
+import { Pokemon } from "@/features/pokemon/types"
+import { getPokemonImage } from "@/features/pokemon/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { Plus, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import toast from "react-hot-toast"
+import { useDeleteFromTeam } from "./../services"
 
 type Props = {
   slotId: number

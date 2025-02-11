@@ -1,7 +1,7 @@
 "use client"
 
-import { useBattleStore } from "@/stores/useBattleStore"
-import { calculateHealth, getPokemonImage } from "@/utils/pokemon"
+import { useBattleStore } from "@/features/battle/stores/useBattleStore"
+import { calculateHealth, getPokemonImage } from "@/features/pokemon/utils"
 import clsx from "clsx"
 import Image from "next/image"
 
@@ -29,7 +29,10 @@ const BattleScreen = () => {
             <div
               className="h-2 w-full bg-green-400 rounded-full transition-all"
               style={{
-                width: `${calculateHealth(opponentPokemon.hp, opponentPokemon.maxHp)}%`,
+                width: `${calculateHealth(
+                  opponentPokemon.current_hp,
+                  opponentPokemon.maxHp
+                )}%`,
               }}
             ></div>
           </div>
@@ -79,7 +82,7 @@ const BattleScreen = () => {
               {playerPokemon.name}
             </p>
             <p className="text-sm font-semibold">
-              {playerPokemon.hp} / {playerPokemon.maxHp}
+              {playerPokemon.current_hp} / {playerPokemon.maxHp}
             </p>
           </div>
           <div className="flex items-center gap-1 bg-gray-700 px-1 rounded-lg ml-10">
@@ -87,7 +90,10 @@ const BattleScreen = () => {
             <div
               className="h-2 w-full bg-green-400 rounded-full transition-all"
               style={{
-                width: `${calculateHealth(playerPokemon.hp, playerPokemon.maxHp)}%`,
+                width: `${calculateHealth(
+                  playerPokemon.current_hp,
+                  playerPokemon.maxHp
+                )}%`,
               }}
             ></div>
           </div>

@@ -1,6 +1,6 @@
-import { client } from "@/lib/fetch"
-import { Pokemon } from "@/types/battle"
+import { client } from "@/utils/fetch"
 import { useQuery } from "@tanstack/react-query"
+import { Pokemon } from "./types"
 
 export const usePokemon = (type: string | null, search: string | null) =>
   useQuery<Pokemon[]>({

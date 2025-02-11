@@ -1,8 +1,8 @@
 "use client"
 
-import BattleScreen from "@/components/battle/BattleScreen"
-import BottomScreen from "@/components/battle/BottomScreen"
-import { useBattleStore } from "@/stores/useBattleStore"
+import BattleScreen from "@/features/battle/components/BattleScreen"
+import BottomScreen from "@/features/battle/components/BottomScreen"
+import { useBattleStore } from "@/features/battle/stores/useBattleStore"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 

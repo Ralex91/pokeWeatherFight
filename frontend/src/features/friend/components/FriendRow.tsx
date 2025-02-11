@@ -1,10 +1,10 @@
 "use client"
 
-import { useSession } from "@/lib/auth"
-import { useAcceptFriend, useDeleteFriend } from "@/services/friend"
-import { Friend } from "@/types/friend"
+import { useSession } from "@/features/auth/utils"
 import { Check, X } from "lucide-react"
 import toast from "react-hot-toast"
+import { useAcceptFriend, useDeleteFriend } from "./../services"
+import { Friend } from "./../types"
 
 type Props = {
   friend: Friend

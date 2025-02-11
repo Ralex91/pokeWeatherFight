@@ -1,41 +1,29 @@
 "use client"
+
 import InputField from "@/components/forms/InputField"
-import { signUp } from "@/lib/auth"
+import { signUpSchema } from "@/features/auth/schemas"
+import { signUpSchemaType } from "@/features/auth/types"
+import { signUp } from "@/features/auth/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-type FormData = {
-  name: string
-  email: string
-  password: string
-}
-
-const schema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(9, { message: "Password must be at least 9 characters" }),
-})
 
 const Page = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string | null>()
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<signUpSchemaType>({
     defaultValues: {
       name: "",
       email: "",
       password: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(signUpSchema),
   })
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: signUpSchemaType) => {
     setErrorMessage(null)
     const { error } = await signUp.email(
       {
@@ -59,21 +47,21 @@ const Page = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-stretch gap-5 w-full"
       >
-        <InputField<FormData>
+        <InputField<signUpSchemaType>
           control={control}
           label="Name"
           name="name"
           type="text"
           placeholder="JhonSkillz"
         />
-        <InputField<FormData>
+        <InputField<signUpSchemaType>
           control={control}
           label="Email"
           name="email"
           type="email"
           placeholder="jhon.doe@example.com"
         />
-        <InputField<FormData>
+        <InputField<signUpSchemaType>
           control={control}
           label="Password"
           name="password"

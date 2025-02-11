@@ -1,9 +1,9 @@
 "use client"
 
-import { BattleStuts } from "@/types/battle"
-import { BATTLE_STATUS } from "@/utils/constants"
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
+import { BATTLE_STATUS } from "./../constants"
+import { BattleStuts } from "./../types"
 
 type Props = {
   status: BattleStuts

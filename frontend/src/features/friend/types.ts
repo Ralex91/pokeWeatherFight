@@ -1,3 +1,6 @@
+import { z } from "zod"
+import { addFriendSchema } from "./schemas"
+
 export type Friend = {
   id: number
   friend_name: string
@@ -10,3 +13,5 @@ export type Friends = {
   friends: Friend[]
   requests: Friend[]
 }
+
+export type addFriendSchemaType = z.infer<typeof addFriendSchema>
