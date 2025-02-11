@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@better-fetch/fetch": "^1.1.12",
+    "@better-fetch/fetch": "^1.1.13",
     "@formkit/drag-and-drop": "^0.3.3",
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^4.0.0",
     "@tanstack/react-query": "^5.66.0",
-    "better-auth": "^1.1.15",
+    "better-auth": "^1.1.17",
     "clsx": "^2.1.1",
     "ky": "^1.7.4",
-    "lucide-react": "^0.474.0",
-    "next": "15.1.6",
+    "lucide-react": "^0.475.0",
+    "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
@@ -26,14 +26,14 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.6",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@eslint/eslintrc": "^3.2.0",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.20.0",
+    "eslint-config-next": "15.1.7",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
   }
 }
