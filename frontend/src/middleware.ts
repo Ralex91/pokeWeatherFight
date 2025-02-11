@@ -1,4 +1,4 @@
-import { authClient } from "@/lib/auth"
+import { authClient } from "@/features/auth/utils"
 import { betterFetch } from "@better-fetch/fetch"
 import { NextResponse, type NextRequest } from "next/server"
 
