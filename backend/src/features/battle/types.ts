@@ -1,6 +1,7 @@
 import { Pokemon } from "@/features/pokemon/types.ts"
 
 export interface PokemonInBattle extends Pokemon {
+  pokemon_id: number
   current_hp: number
 }
 
@@ -10,6 +11,7 @@ export enum PlayerType {
 }
 
 export type Player = {
+  id: string
   name: string
   playedIndex: number
   pokemons: PokemonInBattle[]
@@ -23,8 +25,9 @@ export enum ActionType {
 export type Action = { type: ActionType; value: number }
 
 export type Battle = {
+  id: number
   turn: PlayerType
-  winner: PlayerType | null
+  winner: string | null
   player: Player
   opponent: Player
   messages: string[]

@@ -1,11 +1,12 @@
 "use client"
 
 import { useBattleStore } from "@/features/battle/stores/useBattleStore"
-import { client } from "@/utils/fetch"
 import clsx from "clsx"
 import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
-import { Battle, PokemonInBattle } from "./../types"
+import { useEffect } from "react"
+import { useAction } from "../services"
+import { ActionType, PokemonInBattle } from "./../types"
 
 type Prop = {
   pokemons: PokemonInBattle[]
@@ -13,21 +14,27 @@ type Prop = {
 }
 
 const PokemonList = ({ pokemons, playedIndex }: Prop) => {
-  const { setGameState, setMenuOpenIndex } = useBattleStore()
+  const { gameState, setGameState, setMenuOpenIndex } = useBattleStore()
 
-  const handleSwitch = (pokemonIndex: number) => async () => {
-    const res = await client.post("battle/action", {
-      json: { action: "switch", value: pokemonIndex },
+  if (!gameState) {
+    return null
+  }
+
+  const { mutate, data: newBattleData } = useAction(gameState.id)
+
+  const handleSwitch = (pokemonIndex: number) => () =>
+    mutate({
+      type: ActionType.SWITCH,
+      value: pokemonIndex,
     })
 
-    if (res.ok) {
-      const data: Battle = await res.json()
-      setGameState(data)
-    } else {
-      console.error(await res.text())
-    }
-  }
   const handeBack = () => setMenuOpenIndex(0)
+
+  useEffect(() => {
+    if (newBattleData) {
+      setGameState(newBattleData)
+    }
+  }, [newBattleData])
 
   return (
     <div>
@@ -55,7 +62,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
             )}
           >
             <Image
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${p.id}.png`}
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${p.pokemon_id}.png`}
               alt={p.name}
               width={100}
               height={100}

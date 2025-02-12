@@ -2,19 +2,28 @@
 
 import BattleScreen from "@/features/battle/components/BattleScreen"
 import BottomScreen from "@/features/battle/components/BottomScreen"
+import { useBattle } from "@/features/battle/services"
 import { useBattleStore } from "@/features/battle/stores/useBattleStore"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 const Page = () => {
-  const { gameState } = useBattleStore()
   const router = useRouter()
+  const battleId = Number(useParams().id)
+  const { data: battle, isLoading, isSuccess } = useBattle(battleId)
+  const { setGameState } = useBattleStore()
 
   useEffect(() => {
-    if (!gameState) {
-      router.push("/game/battle")
+    if (!isSuccess) {
+      return
     }
-  }, [gameState, router])
+
+    setGameState(battle)
+  }, [isSuccess])
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
 
   return (
     <main className="flex-1 flex flex-col">

@@ -1,0 +1,19 @@
+import { client } from "@/utils/fetch"
+import { createErrorHandler } from "@/utils/query"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { Action, Battle } from "./types"
+
+export const useBattle = (battleId: number) =>
+  useQuery({
+    queryKey: ["battle", battleId],
+    queryFn: async () => await client.get<Battle>(`battle/${battleId}`).json(),
+  })
+
+export const useAction = (battleId: number) =>
+  useMutation({
+    mutationFn: async ({ type, value }: Action) =>
+      await client
+        .post<Battle>(`battle/${battleId}/action`, { json: { type, value } })
+        .json(),
+    onError: createErrorHandler(),
+  })

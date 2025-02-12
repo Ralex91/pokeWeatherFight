@@ -1,29 +1,8 @@
 import { Move, Pokemon } from "@/features/pokemon/types.ts"
-import {
-  Battle,
-  Player,
-  PlayerType,
-  WeatherAttackMap,
-  WeatherEffect,
-} from "./types.ts"
+import { updateBattleWinner, updatePokemonIndex } from "./repositories.ts"
+import { Battle, Player, WeatherAttackMap, WeatherEffect } from "./types.ts"
 
 export const TEAM_SIZE = 6
-
-export const GAME_INIT_STATE: Battle = {
-  turn: PlayerType.PLAYER,
-  winner: null,
-  player: {
-    name: "Player",
-    playedIndex: 0,
-    pokemons: [],
-  },
-  opponent: {
-    name: "Opponent",
-    playedIndex: 0,
-    pokemons: [],
-  },
-  messages: [],
-}
 
 export const WEATHER_ATTACK_MAP: WeatherAttackMap[] = [
   {
@@ -58,38 +37,39 @@ export const getWeatherEffects = (
 export const calculateDamage = (
   gameState: Battle,
   move: Move,
-  attacker: Pokemon,
+  attacker: Player,
+  attackerPokemon: Pokemon,
   weatherEffects: WeatherEffect | null
 ) => {
   let power = move.power
   const { type } = move
 
-  if (weatherEffects) {
+  if (weatherEffects && weatherEffects[type]) {
     const effect = weatherEffects[type]
 
     power += effect
     addMessage(
       gameState,
-      gameState.opponent.name,
+      attacker.name,
       `The weather is ${effect > 0 ? "strong" : "weak"} for the ${
         move.type
-      } type, so ${effect > 0 ? "+" : "-"} ${effect} damage`
+      } type, so ${effect > 0 ? "+" : ""} ${effect} damage`
     )
   }
 
-  if (attacker.types.map((t) => t.name).includes(type)) {
+  if (attackerPokemon.types.map((t) => t.name).includes(type)) {
     power *= 1.5
     addMessage(
       gameState,
-      gameState.opponent.name,
-      `The ${move.type} type matches ${attacker.name}'s type, so +50% power`
+      attacker.name,
+      `The ${move.type} type matches ${attackerPokemon.name}'s type, so +50% power`
     )
   }
 
   return Math.floor(power)
 }
 
-export const switchPokemon = (
+export const switchPokemon = async (
   gameState: Battle,
   player: Player,
   newIndex: number
@@ -100,6 +80,8 @@ export const switchPokemon = (
     player.pokemons[newIndex].current_hp > 0
   ) {
     player.playedIndex = newIndex
+    await updatePokemonIndex(player.id, newIndex)
+
     addMessage(
       gameState,
       player.name,
@@ -112,7 +94,7 @@ export const switchPokemon = (
   return false
 }
 
-export const checkGameOver = (gameState: Battle) => {
+export const checkGameOver = async (gameState: Battle) => {
   const playerDefeated = gameState.player.pokemons.every(
     (p) => p.current_hp === 0
   )
@@ -121,13 +103,15 @@ export const checkGameOver = (gameState: Battle) => {
   )
 
   if (playerDefeated) {
-    gameState.winner = PlayerType.OPPONENT
+    gameState.winner = gameState.opponent.name
+    await updateBattleWinner(gameState.id, gameState.opponent.id)
 
     return true
   }
 
   if (opponentDefeated) {
-    gameState.winner = PlayerType.PLAYER
+    gameState.winner = gameState.player.name
+    await updateBattleWinner(gameState.id, gameState.player.id)
 
     return true
   }

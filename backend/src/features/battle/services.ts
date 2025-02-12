@@ -1,5 +1,5 @@
 import { getWeatherCode } from "@/features/weather/services.ts"
-import { getBattle } from "./repositories.ts"
+import { updatePokemonHp } from "./repositories.ts"
 import { Action, ActionType, Battle, Player, PlayerType } from "./types.ts"
 import {
   addMessage,
@@ -25,13 +25,14 @@ const attack = async (
   const damage = calculateDamage(
     gameState,
     move,
+    attacker,
     attackingPokemon,
     weatherEffects
   )
-  defendingPokemon.current_hp = Math.max(
-    0,
-    defendingPokemon.current_hp - damage
-  )
+  const newHp = Math.max(0, defendingPokemon.current_hp - damage)
+
+  await updatePokemonHp(defendingPokemon.id, newHp)
+  defendingPokemon.current_hp = newHp
 
   addMessage(
     gameState,
@@ -67,9 +68,7 @@ const aiChooseAction = (opponent: Player): Action => {
   }
 }
 
-export const playTurn = async (action: Action) => {
-  const battle = await getBattle(1)
-
+export const playTurn = async (battle: Battle, action: Action) => {
   if (!battle) {
     throw new Error("Battle not found")
   }
@@ -95,7 +94,7 @@ export const playTurn = async (action: Action) => {
 
       while (nextIndex < defender.pokemons.length) {
         if (defender.pokemons[nextIndex].current_hp > 0) {
-          switchPokemon(battle, defender, nextIndex)
+          await switchPokemon(battle, defender, nextIndex)
 
           break
         }
@@ -106,15 +105,15 @@ export const playTurn = async (action: Action) => {
   }
 
   if (action.type === ActionType.SWITCH) {
-    switchPokemon(battle, attacker, action.value)
+    await switchPokemon(battle, attacker, action.value)
   }
 
-  if (!checkGameOver(battle)) {
+  if (!(await checkGameOver(battle))) {
     battle.turn = isPlayer ? PlayerType.OPPONENT : PlayerType.PLAYER
 
     if (battle.turn === PlayerType.OPPONENT) {
       const aiAction: Action = aiChooseAction(battle.opponent)
-      await playTurn(aiAction)
+      await playTurn(battle, aiAction)
     }
   }
 

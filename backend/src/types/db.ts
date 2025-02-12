@@ -96,11 +96,17 @@ export enum BattleStatus {
 
 export interface Battle {
   id: Generated<number>
-  player1_id: string
-  player2_id: string
   status: BattleStatus
   winner_id: string | null
   createdAt: Generated<Date>
+}
+
+export interface Battle_player {
+  id: Generated<number>
+  battle_id: number
+  user_id: string
+  player_type: string
+  pokemon_index: Generated<number>
 }
 
 export interface Battle_pokemon {
@@ -124,5 +130,6 @@ export interface Database {
   team: Team
   friend: Friend
   battle: Battle
+  battle_player: Battle_player
   battle_pokemon: Battle_pokemon
 }

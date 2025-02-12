@@ -1,14 +1,12 @@
 "use client"
 
 import BattleRow from "@/features/battle/components/BattleRow"
-import { useBattleStore } from "@/features/battle/stores/useBattleStore"
 import { Battle, BattleStuts } from "@/features/battle/types"
 import { client } from "@/utils/fetch"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 const Page = () => {
-  const { setGameState } = useBattleStore()
   const router = useRouter()
 
   const handleCreateBattle = async () => {
@@ -16,9 +14,8 @@ const Page = () => {
 
     if (res.ok) {
       const data: Battle = await res.json()
-      setGameState(data)
 
-      router.push(`/game/battle/tempID`)
+      router.push(`/game/battle/${data.id}`)
     } else {
       console.error(await res.text())
     }

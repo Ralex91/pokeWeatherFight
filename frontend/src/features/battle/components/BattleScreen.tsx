@@ -40,7 +40,7 @@ const BattleScreen = () => {
         <div className="relative scale-90">
           <Image
             className="z-10 relative"
-            src={getPokemonImage(opponentPokemon.id)}
+            src={getPokemonImage(opponentPokemon.pokemon_id)}
             alt="pokemon"
             width={200}
             height={200}
@@ -61,7 +61,7 @@ const BattleScreen = () => {
         <div className="relative scale-110">
           <Image
             className="z-10 relative"
-            src={getPokemonImage(playerPokemon.id)}
+            src={getPokemonImage(playerPokemon.pokemon_id)}
             alt="pokemon"
             width={200}
             height={200}

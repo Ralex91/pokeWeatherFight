@@ -2,30 +2,37 @@
 
 import { useBattleStore } from "@/features/battle/stores/useBattleStore"
 import { Move } from "@/features/pokemon/types"
-import { client } from "@/utils/fetch"
 import { ArrowLeft } from "lucide-react"
-import { ActionType, Battle } from "./../types"
+import { useEffect } from "react"
+import { useAction } from "../services"
+import { ActionType } from "./../types"
 
 type Prop = {
   moves: Move[]
 }
 
 const MoveList = ({ moves = [] }: Prop) => {
-  const { setGameState, setMenuOpenIndex } = useBattleStore()
+  const { gameState, setGameState, setMenuOpenIndex } = useBattleStore()
 
-  const handleAttack = (attackIndex: number) => async () => {
-    const res = await client.post("battle/action", {
-      json: { action: ActionType.ATTACK, value: attackIndex },
+  if (!gameState) {
+    return null
+  }
+
+  const { mutate, data: newBattleData } = useAction(gameState.id)
+
+  const handleAttack = (attackIndex: number) => () =>
+    mutate({
+      type: ActionType.ATTACK,
+      value: attackIndex,
     })
 
-    if (res.ok) {
-      const data: Battle = await res.json()
-      setGameState(data)
-    } else {
-      console.error(await res.text())
-    }
-  }
   const handeBack = () => setMenuOpenIndex(0)
+
+  useEffect(() => {
+    if (newBattleData) {
+      setGameState(newBattleData)
+    }
+  }, [newBattleData])
 
   return (
     <div>

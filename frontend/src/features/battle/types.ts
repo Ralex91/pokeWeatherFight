@@ -1,6 +1,7 @@
 import { Pokemon } from "@/features/pokemon/types"
 
 export interface PokemonInBattle extends Pokemon {
+  pokemon_id: number
   current_hp: number
 }
 
@@ -23,6 +24,7 @@ export enum ActionType {
 export type Action = { type: ActionType; value: number }
 
 export type Battle = {
+  id: number
   turn: PlayerType
   winner: PlayerType | null
   player: Player
