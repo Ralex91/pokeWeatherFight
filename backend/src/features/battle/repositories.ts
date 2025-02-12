@@ -176,6 +176,51 @@ export async function getBattle(battleId: number): Promise<Battle | null> {
   }
 }
 
+export const getUserBattles = async (userId: string) => {
+  const battles = await db
+    .selectFrom("battle")
+    .innerJoin("battle_player as my_entry", "my_entry.battle_id", "battle.id")
+    .leftJoin("battle_player as other_entry", (join) =>
+      join
+        .onRef("other_entry.battle_id", "=", "battle.id")
+        .on("other_entry.user_id", "!=", userId)
+    )
+    .where("my_entry.user_id", "=", userId)
+    .select([
+      "battle.id",
+      "battle.status",
+      "battle.winner_id",
+      (eb) =>
+        eb
+          .selectFrom("user")
+          .whereRef("user.id", "=", "battle.winner_id")
+          .select(["user.name"])
+          .as("winner_name"),
+      (eb) =>
+        eb
+          .selectFrom("user")
+          .whereRef("user.id", "=", "my_entry.user_id")
+          .select(["user.name"])
+          .as("my_name"),
+      (eb) =>
+        eb
+          .selectFrom("user")
+          .whereRef("user.id", "=", "other_entry.user_id")
+          .select(["user.name"])
+          .as("other_name"),
+    ])
+    .orderBy("battle.id", "desc")
+    .execute()
+
+  return battles.map((b) => ({
+    id: b.id,
+    status: !b.winner_id ? "pending" : b.winner_id === userId ? "win" : "lose",
+    winner: b.winner_name,
+    player: b.my_name,
+    opponent: b.other_name,
+  }))
+}
+
 export const updatePokemonHp = async (pokemonBattleId: number, newHp: number) =>
   await db
     .updateTable("battle_pokemon")

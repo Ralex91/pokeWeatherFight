@@ -7,7 +7,7 @@ const Page = () => {
   const { data, isLoading, isError } = useTeam()
 
   return (
-    <main className="flex-1 flex flex-col">
+    <main className="flex-1 flex flex-col mt-3">
       <h1 className="text-2xl font-bold drop-shadow-md">Team</h1>
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error</p>}

@@ -3,14 +3,19 @@ import { HonoContext } from "@/types/hono.ts"
 import { zValidator } from "@hono/zod-validator"
 import { Hono } from "hono"
 import { z } from "zod"
+import { loggedCheck } from "../auth/middlewares.ts"
+import { auth } from "../auth/services.ts"
 import {
   acceptFriend,
   addFriend,
   deleteFriend,
+  getFriendRequest,
   getUserFriend,
 } from "./repositories.ts"
 
 const router = new Hono<HonoContext>()
+
+router.use("/*", loggedCheck)
 
 router.get("/", async (c) => {
   const user = c.get("user")
@@ -33,25 +38,15 @@ router.post(
     })
   ),
   async (c) => {
-    const me = c.get("user")
-
-    if (!me) {
-      return c.json({ message: "Unauthorized" }, 401)
-    }
-
+    const me = c.get("user") as typeof auth.$Infer.Session.user
     const { userId } = c.req.valid("json")
-
     const friend = await getUser(userId)
 
     if (!friend) {
       return c.json({ message: "User not found" }, 404)
     }
 
-    try {
-      await addFriend(me.id, userId)
-    } catch (e: any) {
-      return c.json({ message: e.message }, 400)
-    }
+    await addFriend(me.id, userId)
 
     return c.json({
       message: "Friend request sent",
@@ -64,28 +59,23 @@ router.patch(
   zValidator(
     "json",
     z.object({
-      userId: z.string(),
+      requestId: z.number(),
     })
   ),
   async (c) => {
-    const me = c.get("user")
+    const me = c.get("user") as typeof auth.$Infer.Session.user
+    const { requestId } = c.req.valid("json")
+    const friendRequest = await getFriendRequest(requestId)
 
-    if (!me) {
+    if (!friendRequest) {
+      return c.json({ message: "Friend request not found" }, 404)
+    }
+
+    if (friendRequest.friend_id !== me.id) {
       return c.json({ message: "Unauthorized" }, 401)
     }
 
-    const { userId } = c.req.valid("json")
-    const friend = await getUser(userId)
-
-    if (!friend) {
-      return c.json({ message: "User not found" }, 404)
-    }
-
-    try {
-      await acceptFriend(me.id, userId)
-    } catch (e: any) {
-      return c.json({ message: e.message }, 400)
-    }
+    await acceptFriend(requestId)
 
     return c.json({
       message: "Friend accepted",
@@ -98,28 +88,23 @@ router.delete(
   zValidator(
     "json",
     z.object({
-      userId: z.string(),
+      requestId: z.number(),
     })
   ),
   async (c) => {
-    const me = c.get("user")
+    const me = c.get("user") as typeof auth.$Infer.Session.user
+    const { requestId } = c.req.valid("json")
+    const friendRequest = await getFriendRequest(requestId)
 
-    if (!me) {
+    if (!friendRequest) {
+      return c.json({ message: "Friend request not found" }, 404)
+    }
+
+    if (friendRequest.user_id !== me.id && friendRequest.friend_id !== me.id) {
       return c.json({ message: "Unauthorized" }, 401)
     }
 
-    const { userId } = c.req.valid("json")
-    const friend = await getUser(userId)
-
-    if (!friend) {
-      return c.json({ message: "User not found" }, 404)
-    }
-
-    try {
-      await deleteFriend(me.id, friend.id)
-    } catch (e: any) {
-      return c.json({ message: e.message }, 400)
-    }
+    await deleteFriend(requestId)
 
     return c.json({
       message: "Friend removed",

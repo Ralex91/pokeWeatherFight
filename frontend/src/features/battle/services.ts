@@ -1,12 +1,18 @@
 import { client } from "@/utils/fetch"
 import { createErrorHandler } from "@/utils/query"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { Action, Battle } from "./types"
+import { Action, Battle, BattleList } from "./types"
 
 export const useBattle = (battleId: number) =>
   useQuery({
     queryKey: ["battle", battleId],
     queryFn: async () => await client.get<Battle>(`battle/${battleId}`).json(),
+  })
+
+export const useBattles = () =>
+  useQuery({
+    queryKey: ["battle"],
+    queryFn: async () => await client.get<BattleList[]>("battle").json(),
   })
 
 export const useAction = (battleId: number) =>

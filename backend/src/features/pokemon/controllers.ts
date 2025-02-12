@@ -1,9 +1,12 @@
 import { zValidator } from "@hono/zod-validator"
 import { Hono } from "hono"
 import { z } from "zod"
+import { loggedCheck } from "../auth/middlewares.ts"
 import { getPokemons, getPokemonTypes } from "./repositories.ts"
 
 const router = new Hono()
+
+router.use("/*", loggedCheck)
 
 router.get(
   "/",

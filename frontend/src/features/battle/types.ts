@@ -32,8 +32,16 @@ export type Battle = {
   messages: string[]
 }
 
+export type BattleList = {
+  id: number
+  status: BattleStuts
+  winner: string | null
+  player: string
+  opponent: string
+}
+
 export enum BattleStuts {
-  IN_PROGRESS = "In progress",
-  WIN = "Win",
-  LOSE = "Lose",
+  IN_PROGRESS = "pending",
+  WIN = "win",
+  LOSE = "lose",
 }

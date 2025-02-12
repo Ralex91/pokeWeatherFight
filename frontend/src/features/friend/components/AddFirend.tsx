@@ -3,6 +3,7 @@
 import InputField from "@/components/forms/InputField"
 import { useSession } from "@/features/auth/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { addFriendSchema } from "../schemas"
@@ -11,7 +12,8 @@ import { useAddFriend } from "./../services"
 
 const AddFirend = () => {
   const { data: session } = useSession()
-  const { mutateAsync } = useAddFriend()
+  const queryClient = useQueryClient()
+  const { mutateAsync } = useAddFriend(queryClient)
   const form = useForm({
     resolver: zodResolver(addFriendSchema),
     defaultValues: {
@@ -24,6 +26,7 @@ const AddFirend = () => {
   const onSubmit = async (data: addFriendSchemaType) => {
     await mutateAsync(data.userId)
     toast.success("Friend added")
+    form.reset()
   }
 
   return (

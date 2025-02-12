@@ -1,6 +1,6 @@
 import { client } from "@/utils/fetch"
 import { createErrorHandler } from "@/utils/query"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { Friend, Friends } from "./types"
 
 export const useFriend = () =>
@@ -16,23 +16,35 @@ export const useFriend = () =>
     },
   })
 
-export const useAddFriend = () =>
+export const useAddFriend = (queryClient: QueryClient) =>
   useMutation({
     mutationFn: async (userId: string) =>
       await client.post("friend", { json: { userId } }).json(),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["friend"],
+      }),
     onError: createErrorHandler(),
   })
 
-export const useAcceptFriend = () =>
+export const useAcceptFriend = (queryClient: QueryClient) =>
   useMutation({
-    mutationFn: async (userId: string) =>
-      await client.patch("friend", { json: { userId } }).json(),
+    mutationFn: async (requestId: number) =>
+      await client.patch("friend", { json: { requestId } }).json(),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["friend"],
+      }),
     onError: createErrorHandler(),
   })
 
-export const useDeleteFriend = () =>
+export const useDeleteFriend = (queryClient: QueryClient) =>
   useMutation({
-    mutationFn: async (userId: string) =>
-      await client.delete("friend", { json: { userId } }).json(),
+    mutationFn: async (requestId: number) =>
+      await client.delete("friend", { json: { requestId } }).json(),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["friend"],
+      }),
     onError: createErrorHandler(),
   })

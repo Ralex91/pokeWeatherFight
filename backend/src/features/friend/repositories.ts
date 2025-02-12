@@ -1,5 +1,32 @@
 import { db } from "@/lib/db.ts"
 
+export const getFriendRequest = async (requestId: number) => {
+  const result = await db
+    .selectFrom("friend")
+    .select([
+      "friend.id",
+      "friend.user_id",
+      "friend.friend_id",
+      "friend.accepted",
+      (eb) =>
+        eb
+          .selectFrom("user")
+          .whereRef("user.id", "=", "friend.user_id")
+          .select(["user.name"])
+          .as("user_name"),
+      (eb) =>
+        eb
+          .selectFrom("user")
+          .whereRef("user.id", "=", "friend.friend_id")
+          .select(["user.name"])
+          .as("friend_name"),
+    ])
+    .where("friend.id", "=", requestId)
+    .executeTakeFirst()
+
+  return result
+}
+
 export const getUserFriend = async (userId: string) => {
   const result = await db
     .selectFrom("friend")
@@ -66,28 +93,12 @@ export const addFriend = async (userId: string, friendId: string) => {
     .execute()
 }
 
-export const acceptFriend = async (userId: string, friendId: string) => {
+export const acceptFriend = async (requestId: number) =>
   await db
     .updateTable("friend")
     .set({ accepted: true })
-    .where((eb) =>
-      eb.and([
-        eb("user_id", "=", friendId),
-        eb("friend_id", "=", userId),
-        eb("accepted", "=", false),
-      ])
-    )
+    .where("id", "=", requestId)
     .execute()
-}
 
-export const deleteFriend = async (userId: string, friendId: string) => {
-  await db
-    .deleteFrom("friend")
-    .where((eb) =>
-      eb.or([
-        eb.and([eb("user_id", "=", userId), eb("friend_id", "=", friendId)]),
-        eb.and([eb("user_id", "=", friendId), eb("friend_id", "=", userId)]),
-      ])
-    )
-    .execute()
-}
+export const deleteFriend = async (requestId: number) =>
+  await db.deleteFrom("friend").where("id", "=", requestId).execute()

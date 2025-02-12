@@ -14,12 +14,12 @@ const Page = () => {
   const { setGameState } = useBattleStore()
 
   useEffect(() => {
-    if (!isSuccess) {
+    if (isLoading || !isSuccess) {
       return
     }
 
     setGameState(battle)
-  }, [isSuccess])
+  }, [isLoading, isSuccess, battle, setGameState, router])
 
   if (isLoading) {
     return <p>Loading...</p>

@@ -1,5 +1,5 @@
 import authController from "@/features/auth/controllers.ts"
-import { authMiddleware } from "@/features/auth/services.ts"
+import { authMiddleware } from "@/features/auth/middlewares.ts"
 import battleController from "@/features/battle/controllers.ts"
 import friendController from "@/features/friend/controllers.ts"
 import pokemonController from "@/features/pokemon/controllers.ts"

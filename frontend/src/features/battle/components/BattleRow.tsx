@@ -3,22 +3,22 @@
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
 import { BATTLE_STATUS } from "./../constants"
-import { BattleStuts } from "./../types"
+import { BattleList, BattleStuts } from "./../types"
 
 type Props = {
-  status: BattleStuts
+  battle: BattleList
 }
 
-const BattleRow = ({ status }: Props) => {
+const BattleRow = ({ battle }: Props) => {
   const router = useRouter()
-  const Icon = BATTLE_STATUS[status].icon
+  const Icon = BATTLE_STATUS[battle.status].icon
 
   const handleGoBattle = () => () => {
-    if (status !== BattleStuts.IN_PROGRESS) {
+    if (battle.status !== BattleStuts.IN_PROGRESS) {
       return
     }
 
-    router.push(`/game/battle/tempID`)
+    router.push(`/game/battle/${battle.id}`)
   }
 
   return (
@@ -28,7 +28,7 @@ const BattleRow = ({ status }: Props) => {
     >
       <div
         className={clsx(
-          BATTLE_STATUS[status].color,
+          BATTLE_STATUS[battle.status].color,
           "flex justify-center items-center p-2 rounded-md"
         )}
       >
@@ -37,11 +37,11 @@ const BattleRow = ({ status }: Props) => {
       <div className="w-full">
         <div className="flex w-full justify-between items-start">
           <p className="text-lg font-semibold text-gray-600">
-            Player1 VS Player2
+            {battle.player} VS {battle.opponent}
           </p>
-          <p className="text-sm">#1234</p>
+          <p className="text-sm">#{battle.id}</p>
         </div>
-        <p className="text-sm text-left">{BATTLE_STATUS[status].name}</p>
+        <p className="text-sm text-left">{BATTLE_STATUS[battle.status].name}</p>
       </div>
     </div>
   )

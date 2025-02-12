@@ -1,6 +1,7 @@
 "use client"
 
 import BattleRow from "@/features/battle/components/BattleRow"
+import { useBattles } from "@/features/battle/services"
 import { Battle, BattleStuts } from "@/features/battle/types"
 import { client } from "@/utils/fetch"
 import { Plus } from "lucide-react"
@@ -8,6 +9,7 @@ import { useRouter } from "next/navigation"
 
 const Page = () => {
   const router = useRouter()
+  const { data: battles } = useBattles()
 
   const handleCreateBattle = async () => {
     const res = await client.post("battle")
@@ -27,16 +29,17 @@ const Page = () => {
         <div>
           <h2 className="text-xl drop-shadow-md font-bold">Active Battle</h2>
           <div className="flex flex-col items-stretch gap-2 my-3">
-            <BattleRow status={BattleStuts.IN_PROGRESS} />
-            <BattleRow status={BattleStuts.IN_PROGRESS} />
+            {battles
+              ?.filter((battle) => battle.status === BattleStuts.IN_PROGRESS)
+              .map((battle) => <BattleRow battle={battle} key={battle.id} />)}
           </div>
         </div>
         <div>
           <h2 className="text-xl drop-shadow-md font-bold">Battle Hisory</h2>
           <div className="flex flex-col items-stretch gap-2 my-3">
-            {Array.from({ length: 20 }, (_, i) => (
-              <BattleRow status={BattleStuts.WIN} key={i} />
-            ))}
+            {battles
+              ?.filter((battle) => !!battle.winner)
+              .map((battle) => <BattleRow battle={battle} key={battle.id} />)}
           </div>
         </div>
       </div>

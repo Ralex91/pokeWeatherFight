@@ -13,6 +13,7 @@ const TanstackProvider = ({ children }: { children: React.ReactNode }) => {
       defaultOptions: {
         queries: {
           placeholderData: keepPreviousData,
+          retry: false,
         },
       },
     })

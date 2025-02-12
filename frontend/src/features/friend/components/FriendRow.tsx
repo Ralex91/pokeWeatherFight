@@ -1,6 +1,7 @@
 "use client"
 
 import { useSession } from "@/features/auth/utils"
+import { useQueryClient } from "@tanstack/react-query"
 import { Check, X } from "lucide-react"
 import toast from "react-hot-toast"
 import { useAcceptFriend, useDeleteFriend } from "./../services"
@@ -12,18 +13,19 @@ type Props = {
 
 const FriendRow = ({ friend }: Props) => {
   const { data: session } = useSession()
-  const { mutateAsync: acceptFriend } = useAcceptFriend()
-  const { mutateAsync: deleteFriend } = useDeleteFriend()
+  const queryClient = useQueryClient()
+  const { mutateAsync: acceptFriend } = useAcceptFriend(queryClient)
+  const { mutateAsync: deleteFriend } = useDeleteFriend(queryClient)
 
   const showAccept = friend.friend_id === session?.user?.id && !friend.accepted
 
   const accept = async () => {
-    await acceptFriend(friend.user_id)
+    await acceptFriend(friend.id)
     toast.success("Friend accepted")
   }
 
   const remove = async () => {
-    await deleteFriend(friend.friend_id)
+    await deleteFriend(friend.id)
     toast.success("Friend removed")
   }
 
