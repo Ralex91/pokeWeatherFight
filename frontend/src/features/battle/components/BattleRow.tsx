@@ -13,8 +13,10 @@ const BattleRow = ({ battle }: Props) => {
   const router = useRouter()
   const Icon = BATTLE_STATUS[battle.status].icon
 
+  const isBattleInProgress = battle.status === BattleStuts.IN_PROGRESS
+
   const handleGoBattle = () => () => {
-    if (battle.status !== BattleStuts.IN_PROGRESS) {
+    if (!isBattleInProgress) {
       return
     }
 
@@ -24,7 +26,12 @@ const BattleRow = ({ battle }: Props) => {
   return (
     <div
       onClick={handleGoBattle()}
-      className="flex gap-2 p-2 rounded-lg bg-gradient-to-b from-gray-100 to-gray-200"
+      className={clsx(
+        "flex gap-2 p-2 rounded-lg bg-gradient-to-b from-gray-100 to-gray-200",
+        {
+          "cursor-pointer": isBattleInProgress,
+        }
+      )}
     >
       <div
         className={clsx(

@@ -81,7 +81,7 @@ router.post(
     }
 
     if (battle.player.id !== user.id) {
-      return c.json({ message: "Unauthorized" }, 401)
+      return c.json({ error: "Unauthorized" }, 401)
     }
 
     const newState = await playTurn(battle, {

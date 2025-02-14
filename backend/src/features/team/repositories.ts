@@ -50,15 +50,11 @@ export async function checkPositionExists(
   return isIndexExists.length > 0
 }
 
-type UpdateTeamParams = {
-  userId: string
-  index: number
+export async function updateTeamPosition(
+  userId: string,
+  index: number,
   pokemonId: number
-}
-
-export async function updateTeamPosition(params: UpdateTeamParams) {
-  const { userId, index, pokemonId } = params
-
+) {
   const positionExists = await checkPositionExists(userId, index)
 
   if (positionExists) {
@@ -78,15 +74,12 @@ export async function updateTeamPosition(params: UpdateTeamParams) {
     .execute()
 }
 
-export async function updateTeam(params: UpdateTeamParams) {
-  const { userId, index, pokemonId } = params
-
-  const isInTeam = await checkPokemonInTeam(userId, pokemonId)
-  if (isInTeam) {
-    throw new Error("Already in team")
-  }
-
-  await updateTeamPosition(params)
+export async function updateTeam(
+  userId: string,
+  index: number,
+  pokemonId: number
+) {
+  await updateTeamPosition(userId, index, pokemonId)
   const pokemon = await getPokemon(pokemonId)
 
   return {
@@ -95,14 +88,7 @@ export async function updateTeam(params: UpdateTeamParams) {
   }
 }
 
-type DeleteTeamParams = {
-  userId: string
-  index: number
-}
-
-export async function deleteFromTeam(params: DeleteTeamParams) {
-  const { userId, index } = params
-
+export async function deleteFromTeam(userId: string, index: number) {
   await db
     .deleteFrom("team")
     .where("user_id", "=", userId)

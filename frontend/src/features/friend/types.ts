@@ -3,9 +3,9 @@ import { addFriendSchema } from "./schemas"
 
 export type Friend = {
   id: number
-  friend_name: string
-  user_id: string
   friend_id: string
+  friend_name: string
+  requester_id: string
   accepted: boolean
 }
 

@@ -54,12 +54,14 @@ export const getUserFriend = async (userId: string) => {
     .execute()
 
   return result.map((row) => {
+    const friendId = row.user_id === userId ? row.friend_id : row.user_id
     const friendName = row.user_id === userId ? row.friend_name : row.user_name
+
     return {
       id: row.id,
+      friend_id: friendId,
       friend_name: friendName,
-      user_id: row.user_id,
-      friend_id: row.friend_id,
+      requester_id: row.user_id,
       accepted: row.accepted,
     }
   })

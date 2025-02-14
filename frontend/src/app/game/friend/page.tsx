@@ -13,7 +13,7 @@ const Page = () => {
     <main className="flex-1 flex flex-col relative mt-3">
       <div className="flex-1 flex flex-col divide-y-2 divide-gray-200 space-y-3">
         <div>
-          <h2 className="text-xl font-bold mb-1">Add Friend</h2>
+          <h2 className="text-xl font-bold drop-shadow-md mb-1">Add Friend</h2>
           <AddFirend />
         </div>
 
@@ -22,7 +22,7 @@ const Page = () => {
 
         {!!data?.requests?.length && (
           <div>
-            <h2 className="text-xl font-bold mb-1">Requests</h2>
+            <h2 className="text-xl font-bold drop-shadow-md mb-1">Requests</h2>
             {data?.requests?.map((friend: Friend, i) => (
               <FriendRow key={i} friend={friend} />
             ))}
@@ -30,7 +30,7 @@ const Page = () => {
         )}
 
         <div>
-          <h2 className="text-xl font-bold mb-1">Friends</h2>
+          <h2 className="text-xl font-bold drop-shadow-md mb-1">Friends</h2>
           {data?.friends?.map((friend: Friend, i) => (
             <FriendRow key={i} friend={friend} />
           ))}

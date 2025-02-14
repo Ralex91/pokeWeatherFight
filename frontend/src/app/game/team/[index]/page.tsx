@@ -40,7 +40,7 @@ const Page = () => {
   return (
     <main className="flex-1 flex flex-col mb-3 relative">
       <div className="flex justify-between sticky top-0 py-3 bg-white shadow-md shadow-white">
-        <h1 className="text-2xl font-bold drop-shadow-md">Pokemons</h1>
+        <h1 className="text-xl font-bold drop-shadow-md">Pokemons</h1>
         <div className="flex gap-2 items-stretch">
           <input
             className="bg-slate-200 px-4 py-2 rounded"

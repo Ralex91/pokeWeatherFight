@@ -17,7 +17,8 @@ const FriendRow = ({ friend }: Props) => {
   const { mutateAsync: acceptFriend } = useAcceptFriend(queryClient)
   const { mutateAsync: deleteFriend } = useDeleteFriend(queryClient)
 
-  const showAccept = friend.friend_id === session?.user?.id && !friend.accepted
+  const showAccept =
+    friend.requester_id !== session?.user?.id && !friend.accepted
 
   const accept = async () => {
     await acceptFriend(friend.id)

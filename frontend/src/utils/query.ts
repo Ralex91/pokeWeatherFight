@@ -27,6 +27,7 @@ export const handleQueryError = async (error: QueryError): Promise<string> => {
 
 export const createErrorHandler = (customMessage?: string) => {
   return async (error: QueryError) => {
+    console.error("Query error:", error)
     const message = await handleQueryError(error)
     toast.error(customMessage || message)
   }

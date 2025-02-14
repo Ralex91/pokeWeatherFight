@@ -4,7 +4,12 @@ import { Hono } from "hono"
 import { z } from "zod"
 import { loggedCheck } from "../auth/middlewares.ts"
 import { auth } from "../auth/services.ts"
-import { deleteFromTeam, getTeam, updateTeam } from "./repositories.ts"
+import {
+  checkPokemonInTeam,
+  deleteFromTeam,
+  getTeam,
+  updateTeam,
+} from "./repositories.ts"
 
 const router = new Hono<HonoContext>()
 
@@ -28,23 +33,17 @@ router.patch(
   ),
   async (c) => {
     const user = c.get("user") as typeof auth.$Infer.Session.user
+    const { index, pokemonId } = c.req.valid("json")
 
-    try {
-      const { index, pokemonId } = c.req.valid("json")
-      const result = await updateTeam({
-        userId: user.id,
-        index,
-        pokemonId,
-      })
+    const isInTeam = await checkPokemonInTeam(user.id, pokemonId)
 
-      return c.json(result)
-    } catch (error) {
-      if (error instanceof Error && error.message === "Already in team") {
-        return c.json({ error: error.message }, 400)
-      }
-
-      throw error
+    if (isInTeam) {
+      return c.json({ error: "Pokemon already in team" }, 400)
     }
+
+    const result = await updateTeam(user.id, index, pokemonId)
+
+    return c.json(result)
   }
 )
 
@@ -60,15 +59,12 @@ router.delete(
     const user = c.get("user")
 
     if (!user) {
-      return c.json({ message: "Unauthorized" }, 401)
+      return c.json({ error: "Unauthorized" }, 401)
     }
 
     const { index } = c.req.valid("json")
 
-    await deleteFromTeam({
-      userId: user.id,
-      index,
-    })
+    await deleteFromTeam(user.id, index)
 
     return c.json({ message: "Pokemon removed from team" })
   }

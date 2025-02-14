@@ -43,7 +43,11 @@ router.post(
     const friend = await getUser(userId)
 
     if (!friend) {
-      return c.json({ message: "User not found" }, 404)
+      return c.json({ error: "User not found" }, 404)
+    }
+
+    if (friend.id === me.id) {
+      return c.json({ error: "You can't add yourself" }, 401)
     }
 
     await addFriend(me.id, userId)

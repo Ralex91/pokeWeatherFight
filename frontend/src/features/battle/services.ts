@@ -15,6 +15,19 @@ export const useBattles = () =>
     queryFn: async () => await client.get<BattleList[]>("battle").json(),
   })
 
+export const useCreateBattle = () =>
+  useMutation({
+    mutationFn: async (opponentId: string) =>
+      await client
+        .post<Battle>("battle", {
+          json: {
+            opponentId,
+          },
+        })
+        .json(),
+    onError: createErrorHandler,
+  })
+
 export const useAction = (battleId: number) =>
   useMutation({
     mutationFn: async ({ type, value }: Action) =>
