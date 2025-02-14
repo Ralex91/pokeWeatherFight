@@ -10,16 +10,20 @@ import { useEffect } from "react"
 const Page = () => {
   const router = useRouter()
   const battleId = Number(useParams().id)
-  const { data: battle, isLoading, isSuccess } = useBattle(battleId)
+  const { data: battle, isLoading, isSuccess, isError } = useBattle(battleId)
   const { setGameState } = useBattleStore()
 
   useEffect(() => {
+    if (isError) {
+      router.push("/game/battle")
+    }
+
     if (isLoading || !isSuccess) {
       return
     }
 
     setGameState(battle)
-  }, [isLoading, isSuccess, battle, setGameState, router])
+  }, [isLoading, isSuccess, battle, setGameState, router, isError])
 
   if (isLoading) {
     return <p>Loading...</p>
