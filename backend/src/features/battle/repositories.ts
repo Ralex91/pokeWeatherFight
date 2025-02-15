@@ -1,22 +1,7 @@
 import { db } from "@/lib/db.ts"
 import { BattleStatus } from "@/types/db.ts"
 import { jsonArrayFrom } from "kysely/helpers/postgres"
-import { Battle, PlayerType, PokemonInBattle } from "./types.ts"
-
-const addPlayerToBattle = async (
-  battleId: number,
-  playerId: string,
-  playerType: PlayerType
-) => {
-  await db
-    .insertInto("battle_player")
-    .values({
-      battle_id: battleId,
-      user_id: playerId,
-      player_type: playerType,
-    })
-    .execute()
-}
+import { Battle, PlayerType, PokemonInBattle, TeamPokemon } from "./types.ts"
 
 export const getBattlePlayers = async (battleId: number) => {
   const players = await db
@@ -51,58 +36,76 @@ export const getBattlePlayers = async (battleId: number) => {
   }
 }
 
+const getPlayerTeam = async (userId: string): Promise<TeamPokemon[]> => {
+  return await db
+    .selectFrom("team")
+    .innerJoin("pokemon", "pokemon.id", "team.pokemon_id")
+    .where("team.user_id", "=", userId)
+    .select(["pokemon.id", "pokemon.maxHp", "team.position"])
+    .execute()
+}
+
+const addPlayerToBattle = async (
+  battleId: number,
+  userId: string,
+  pokemons: TeamPokemon[]
+) => {
+  const battlePokemons = pokemons.map((pokemon) => ({
+    battle_id: battleId,
+    pokemon_id: pokemon.id,
+    user_id: userId,
+    current_hp: pokemon.maxHp,
+  }))
+
+  await db.insertInto("battle_pokemon").values(battlePokemons).execute()
+}
+
 export const createBattle = async (playerId: string, opponentId: string) => {
-  const [battle] = await db
-    .insertInto("battle")
-    .values({
-      status: BattleStatus.PENDING,
-    })
-    .returning("id")
-    .execute()
-
-  await addPlayerToBattle(battle.id, playerId, PlayerType.PLAYER)
-  await addPlayerToBattle(battle.id, opponentId, PlayerType.OPPONENT)
-
-  const player1Team = await db
-    .selectFrom("team")
-    .innerJoin("pokemon", "pokemon.id", "team.pokemon_id")
-    .where("team.user_id", "=", playerId)
-    .select(["pokemon.id", "pokemon.maxHp", "team.position"])
-    .execute()
-
-  const player2Team = await db
-    .selectFrom("team")
-    .innerJoin("pokemon", "pokemon.id", "team.pokemon_id")
-    .where("team.user_id", "=", opponentId)
-    .select(["pokemon.id", "pokemon.maxHp", "team.position"])
-    .execute()
-
-  await Promise.all([
-    ...player1Team.map((pokemon) =>
-      db
-        .insertInto("battle_pokemon")
-        .values({
-          battle_id: battle.id,
-          pokemon_id: pokemon.id,
-          user_id: playerId,
-          current_hp: pokemon.maxHp,
-        })
-        .execute()
-    ),
-    ...player2Team.map((pokemon) =>
-      db
-        .insertInto("battle_pokemon")
-        .values({
-          battle_id: battle.id,
-          pokemon_id: pokemon.id,
-          user_id: opponentId,
-          current_hp: pokemon.maxHp,
-        })
-        .execute()
-    ),
+  const [player1Team, player2Team] = await Promise.all([
+    getPlayerTeam(playerId),
+    getPlayerTeam(opponentId),
   ])
 
-  return battle.id
+  if (!player1Team.length || !player2Team.length) {
+    throw new Error("Invalid team")
+  }
+
+  const battleId = await db.transaction().execute(async (trx) => {
+    const [battle] = await trx
+      .insertInto("battle")
+      .values({
+        status: BattleStatus.PENDING,
+      })
+      .returning("id")
+      .execute()
+
+    await Promise.all([
+      trx
+        .insertInto("battle_player")
+        .values([
+          {
+            battle_id: battle.id,
+            user_id: playerId,
+            player_type: PlayerType.PLAYER,
+          },
+          {
+            battle_id: battle.id,
+            user_id: opponentId,
+            player_type: PlayerType.OPPONENT,
+          },
+        ])
+        .execute(),
+    ])
+
+    await Promise.all([
+      addPlayerToBattle(battle.id, playerId, player1Team),
+      addPlayerToBattle(battle.id, opponentId, player2Team),
+    ])
+
+    return battle.id
+  })
+
+  return battleId
 }
 
 export const getTeamInBattle = async (

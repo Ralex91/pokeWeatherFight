@@ -5,6 +5,12 @@ export interface PokemonInBattle extends Pokemon {
   current_hp: number
 }
 
+export interface TeamPokemon {
+  id: number
+  maxHp: number
+  position: number
+}
+
 export enum PlayerType {
   PLAYER = "player",
   OPPONENT = "opponent",
