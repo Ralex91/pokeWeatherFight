@@ -1,11 +1,17 @@
 {
-  "name": "poke-weater-fight",
+  "name": "poke-weather-fight",
   "private": true,
   "scripts": {
     "dev": "pnpm -r run dev",
+    "dev:backend": "pnpm --filter backend run dev",
+    "dev:frontend": "pnpm --filter frontend run dev",
     "build": "pnpm -r run build",
     "start": "pnpm -r run start",
-    "clean": "pnpm -r exec rm -rf dist node_modules"
+    "clean": "pnpm -r exec rm -rf dist node_modules",
+    "docker:up": "docker compose -f backend/docker-compose.yml up -d",
+    "docker:down": "docker compose -f backend/docker-compose.yml down",
+    "db:migrate": "pnpm --filter backend run kysely migrate:latest",
+    "db:seed": "pnpm --filter backend run kysely seed:run"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
