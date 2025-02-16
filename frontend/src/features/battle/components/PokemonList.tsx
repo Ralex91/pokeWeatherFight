@@ -1,6 +1,7 @@
 "use client"
 
 import { useBattleStore } from "@/features/battle/stores/useBattleStore"
+import { getPokemonImage } from "@/features/pokemon/utils"
 import clsx from "clsx"
 import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
@@ -15,12 +16,7 @@ type Prop = {
 
 const PokemonList = ({ pokemons, playedIndex }: Prop) => {
   const { gameState, setGameState, setMenuOpenIndex } = useBattleStore()
-
-  if (!gameState) {
-    return null
-  }
-
-  const { mutate, data: newBattleData } = useAction(gameState.id)
+  const { mutate, data: newBattleData } = useAction(gameState?.id ?? 0)
 
   const handleSwitch = (pokemonIndex: number) => () =>
     mutate({
@@ -34,7 +30,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
     if (newBattleData) {
       setGameState(newBattleData)
     }
-  }, [newBattleData])
+  }, [newBattleData, setGameState])
 
   return (
     <div>
@@ -62,7 +58,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
             )}
           >
             <Image
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${p.pokemon_id}.png`}
+              src={getPokemonImage(p.id)}
               alt={p.name}
               width={100}
               height={100}

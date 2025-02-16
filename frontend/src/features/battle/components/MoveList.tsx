@@ -13,12 +13,7 @@ type Prop = {
 
 const MoveList = ({ moves = [] }: Prop) => {
   const { gameState, setGameState, setMenuOpenIndex } = useBattleStore()
-
-  if (!gameState) {
-    return null
-  }
-
-  const { mutate, data: newBattleData } = useAction(gameState.id)
+  const { mutate, data: newBattleData } = useAction(gameState?.id ?? 0)
 
   const handleAttack = (attackIndex: number) => () =>
     mutate({
@@ -32,7 +27,7 @@ const MoveList = ({ moves = [] }: Prop) => {
     if (newBattleData) {
       setGameState(newBattleData)
     }
-  }, [newBattleData])
+  }, [newBattleData, setGameState])
 
   return (
     <div>
