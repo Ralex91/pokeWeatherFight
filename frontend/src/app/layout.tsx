@@ -31,8 +31,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TanstackProvider>
-          <div className="flex flex-col min-h-screen max-w-lg mx-auto relative">
-            <div className="flex-1 flex flex-col">{children}</div>
+          <div className="relative mx-auto flex min-h-screen max-w-lg flex-col">
+            <div className="flex flex-1 flex-col">{children}</div>
             <BottomBar />
           </div>
           <Toaster />

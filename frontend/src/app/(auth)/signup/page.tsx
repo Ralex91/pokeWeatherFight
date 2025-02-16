@@ -35,17 +35,17 @@ const Page = () => {
         onSuccess: () => {
           router.push("/game/team")
         },
-      }
+      },
     )
     setErrorMessage(error?.message)
   }
 
   return (
-    <main className="flex-1 flex flex-col justify-center">
-      <h1 className="text-3xl drop-shadow-md font-bold mb-3">Sign Up</h1>
+    <main className="flex flex-1 flex-col justify-center">
+      <h1 className="mb-3 text-3xl font-bold drop-shadow-md">Sign Up</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-stretch gap-5 w-full"
+        className="flex w-full flex-col items-stretch gap-5"
       >
         <InputField<signUpSchemaType>
           control={control}
@@ -69,19 +69,19 @@ const Page = () => {
           placeholder="Password"
         />
 
-        {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+        {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
 
         <button
           type="submit"
-          className="px-4 py-2 rounded font-semibold text-lg text-white bg-gradient-to-b from-blue-500 to-blue-700 hover:brightness-90"
+          className="rounded bg-gradient-to-b from-blue-500 to-blue-700 px-4 py-2 text-lg font-semibold text-white hover:brightness-90"
         >
           Sign Up
         </button>
       </form>
 
-      <p className="text-sm text-slate-600 mt-1">
+      <p className="mt-1 text-sm text-slate-600">
         Already have an account?{" "}
-        <Link href="/signin" className="text-sm text-pokeBlue mt-1">
+        <Link href="/signin" className="mt-1 text-sm text-pokeBlue">
           Sign In
         </Link>
       </p>

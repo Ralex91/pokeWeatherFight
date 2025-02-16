@@ -37,9 +37,9 @@ const Page = () => {
   }
 
   return (
-    <main className="flex-1 flex flex-col my-3 relative">
+    <main className="relative my-3 flex flex-1 flex-col">
       <div className="flex-1 space-y-3">
-        <h1 className="text-xl font-bold drop-shadow-md mb-1">
+        <h1 className="mb-1 text-xl font-bold drop-shadow-md">
           Select a friend
         </h1>
         {data?.friends?.map((friend: Friend, i) => (
@@ -47,11 +47,11 @@ const Page = () => {
             key={i}
             onClick={handleSelect(friend.friend_id)}
             className={clsx(
-              "flex items-center cursor-pointer justify-between gap-2 p-2 bg-gradient-to-b from-gray-100 to-gray-200 rounded",
+              "flex cursor-pointer items-center justify-between gap-2 rounded bg-gradient-to-b from-gray-100 to-gray-200 p-2",
               {
                 "outline outline-2 outline-blue-500":
                   selected === friend.friend_id,
-              }
+              },
             )}
           >
             <p>{friend.friend_name}</p>
@@ -63,7 +63,7 @@ const Page = () => {
         <div className="sticky bottom-16 mt-3">
           <button
             onClick={handleCreateBattle}
-            className="w-full bg-gradient-to-b from-blue-500 to-blue-700 hover:brightness-90 p-2 text-white rounded text-lg font-semibold"
+            className="w-full rounded bg-gradient-to-b from-blue-500 to-blue-700 p-2 text-lg font-semibold text-white hover:brightness-90"
           >
             Create Battle
           </button>

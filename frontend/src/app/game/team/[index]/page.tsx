@@ -40,18 +40,18 @@ const Page = () => {
   }
 
   return (
-    <main className="flex-1 flex flex-col mb-3 relative">
-      <div className="flex justify-between sticky top-0 py-3 bg-white shadow-md shadow-white">
+    <main className="relative mb-3 flex flex-1 flex-col">
+      <div className="sticky top-0 flex justify-between bg-white py-3 shadow-md shadow-white">
         <h1 className="text-xl font-bold drop-shadow-md">Pokemons</h1>
-        <div className="flex gap-2 items-stretch">
+        <div className="flex items-stretch gap-2">
           <input
-            className="bg-slate-200 px-4 py-2 rounded"
+            className="rounded bg-slate-200 px-4 py-2"
             type="text"
             placeholder="Search"
             onChange={(e) => setSearch(e.target.value)}
           />
           <select
-            className="bg-slate-200 px-4 py-2 rounded capitalize"
+            className="rounded bg-slate-200 px-4 py-2 capitalize"
             name="type"
             id="type"
             onChange={(e) => setType(e.target.value)}

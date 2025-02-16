@@ -31,20 +31,20 @@ const FriendRow = ({ friend }: Props) => {
   }
 
   return (
-    <div className="flex items-center justify-between gap-2 p-2 bg-gradient-to-b from-gray-100 to-gray-200 rounded">
+    <div className="flex items-center justify-between gap-2 rounded bg-gradient-to-b from-gray-100 to-gray-200 p-2">
       <p>{friend.friend_name}</p>
       <div className="flex items-stretch">
         {showAccept && (
           <button
             onClick={accept}
-            className="hover:bg-black/10 text-green-500 rounded p-1"
+            className="rounded p-1 text-green-500 hover:bg-black/10"
           >
             <Check size={18} />
           </button>
         )}
         <button
           onClick={remove}
-          className="hover:bg-black/10 text-red-500 rounded p-1"
+          className="rounded p-1 text-red-500 hover:bg-black/10"
         >
           <X size={18} />
         </button>

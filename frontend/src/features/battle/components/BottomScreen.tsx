@@ -34,7 +34,7 @@ const BottomScreen = () => {
   const handleExit = () => router.push("/game/battle")
 
   return (
-    <div className="flex-1 flex-col gap-5 flex my-4 relative">
+    <div className="relative my-4 flex flex-1 flex-col gap-5">
       {isMessageDisplayed && (
         <button onClick={handleNextMessage} className="flex-1">
           <p className="text-3xl font-bold text-gray-700/60">Tap to continue</p>
@@ -51,18 +51,18 @@ const BottomScreen = () => {
         <>
           <button
             onClick={handleOpenMenu(1)}
-            className="flex-1 bg-gradient-to-b from-[#f8819b] to-[#fd1952] hover:brightness-90 rounded-xl"
+            className="flex-1 rounded-xl bg-gradient-to-b from-[#f8819b] to-[#fd1952] hover:brightness-90"
           >
-            <div className="text-white text-3xl font-bold flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2 text-3xl font-bold text-white">
               <Swords size={30} />
               Attack
             </div>
           </button>
           <button
             onClick={handleOpenMenu(2)}
-            className="flex-1 bg-gradient-to-b from-[#81a7f8] to-[#1943fd] hover:brightness-90 rounded-xl"
+            className="flex-1 rounded-xl bg-gradient-to-b from-[#81a7f8] to-[#1943fd] hover:brightness-90"
           >
-            <div className="text-white text-3xl font-bold flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2 text-3xl font-bold text-white">
               <WalletCards size={30} />
               Pokemon
             </div>
@@ -81,7 +81,7 @@ const BottomScreen = () => {
         />
       )}
 
-      <div className="flex justify-center items-center w-full h-full absolute -z-10">
+      <div className="absolute -z-10 flex h-full w-full items-center justify-center">
         <Image
           className="opacity-20"
           src="/pokeball.svg"

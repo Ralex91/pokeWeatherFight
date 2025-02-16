@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const BottomBar = () => {
   return (
-    <div className="sticky bottom-0 rounded-t-lg p-4 bg-gradient-to-b from-blue-100 to-gray-100 flex justify-between px-20 gap-5">
+    <div className="sticky bottom-0 flex justify-between gap-5 rounded-t-lg bg-gradient-to-b from-blue-100 to-gray-100 p-4 px-20">
       <Link className="text-gray-800" href="/game/team">
         <WalletCards />
       </Link>

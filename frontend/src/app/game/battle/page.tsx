@@ -12,7 +12,7 @@ const Page = () => {
   const { data: battles, isLoading, isError } = useBattles()
 
   const activeBattles = battles?.filter(
-    (battle) => battle.status === BattleStuts.IN_PROGRESS
+    (battle) => battle.status === BattleStuts.IN_PROGRESS,
   )
   const finishedBattles = battles?.filter((battle) => !!battle.winner)
 
@@ -25,11 +25,11 @@ const Page = () => {
   }
 
   return (
-    <main className="flex-1 flex flex-col my-3 gap-3 relative">
+    <main className="relative my-3 flex flex-1 flex-col gap-3">
       <div className="flex-1 divide-y-2 divide-gray-200">
         <div>
-          <h2 className="text-xl drop-shadow-md font-bold">Active Battle</h2>
-          <div className="flex flex-col items-stretch gap-2 my-3">
+          <h2 className="text-xl font-bold drop-shadow-md">Active Battle</h2>
+          <div className="my-3 flex flex-col items-stretch gap-2">
             {activeBattles?.length === 0 && (
               <p className="text-center">No active battle</p>
             )}
@@ -39,8 +39,8 @@ const Page = () => {
           </div>
         </div>
         <div>
-          <h2 className="text-xl drop-shadow-md font-bold">Battle Hisory</h2>
-          <div className="flex flex-col items-stretch gap-2 my-3">
+          <h2 className="text-xl font-bold drop-shadow-md">Battle Hisory</h2>
+          <div className="my-3 flex flex-col items-stretch gap-2">
             {finishedBattles?.length === 0 && (
               <p className="text-center">No battle history</p>
             )}
@@ -53,9 +53,9 @@ const Page = () => {
       <div className="sticky bottom-16 ml-auto mr-2">
         <Link
           href="/game/battle/create"
-          className="flex bg-gradient-to-b cursor-pointer from-blue-500 to-blue-700 hover:brightness-90 p-2 aspect-square shadow-md rounded-full"
+          className="flex aspect-square cursor-pointer rounded-full bg-gradient-to-b from-blue-500 to-blue-700 p-2 shadow-md hover:brightness-90"
         >
-          <div className="text-white text-lg font-bold flex items-center justify-center gap-2 w-10">
+          <div className="flex w-10 items-center justify-center gap-2 text-lg font-bold text-white">
             <Plus size={30} />
           </div>
         </Link>

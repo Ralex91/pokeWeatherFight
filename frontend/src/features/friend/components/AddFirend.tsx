@@ -33,7 +33,7 @@ const AddFirend = () => {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-stretch gap-5 w-full"
+        className="flex w-full flex-col items-stretch gap-5"
       >
         <div className="flex gap-2">
           <div className="flex-1">
@@ -42,7 +42,7 @@ const AddFirend = () => {
 
           <button
             type="submit"
-            className="bg-gradient-to-b from-blue-500 to-blue-700 hover:brightness-90 text-white font-semibold py-2 px-4 rounded"
+            className="rounded bg-gradient-to-b from-blue-500 to-blue-700 px-4 py-2 font-semibold text-white hover:brightness-90"
           >
             Add
           </button>

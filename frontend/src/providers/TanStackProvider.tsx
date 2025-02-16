@@ -16,7 +16,7 @@ const TanstackProvider = ({ children }: { children: React.ReactNode }) => {
           retry: false,
         },
       },
-    })
+    }),
   )
 
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>

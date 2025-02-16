@@ -28,7 +28,7 @@ const TeamSlot = ({ slotId, pokemon }: Props) => {
       {pokemon && (
         <button
           onClick={handleDeleteFromTeam(slotId)}
-          className="absolute top-0 right-0 p-2 z-10 hover:text-red-500"
+          className="absolute right-0 top-0 z-10 p-2 hover:text-red-500"
         >
           <X size={20} />
         </button>
@@ -36,7 +36,7 @@ const TeamSlot = ({ slotId, pokemon }: Props) => {
 
       <Link
         href={`/game/team/${slotId}`}
-        className="flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg p-1 relative h-36"
+        className="relative flex h-36 flex-col items-center justify-center rounded-lg bg-gradient-to-b from-gray-100 to-gray-200 p-1"
       >
         {pokemon ? (
           <div className="text-center">
@@ -50,7 +50,7 @@ const TeamSlot = ({ slotId, pokemon }: Props) => {
             <p>HP: {pokemon.maxHp}</p>
           </div>
         ) : (
-          <div className="flex flex-col items-center text-lg font-semibold text-center">
+          <div className="flex flex-col items-center text-center text-lg font-semibold">
             <Plus className="opacity-50" size={50} />
             <p>Add Pokemon</p>
           </div>

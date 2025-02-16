@@ -37,7 +37,7 @@ const MoveList = ({ moves = [] }: Prop) => {
   return (
     <div>
       <button
-        className="flex gap-2 items-center px-4 py-2 hover:brightness-90 rounded-lg"
+        className="flex items-center gap-2 rounded-lg px-4 py-2 hover:brightness-90"
         onClick={handeBack}
       >
         <ArrowLeft size={20} />
@@ -48,9 +48,9 @@ const MoveList = ({ moves = [] }: Prop) => {
           <div key={i} className="flex gap-2">
             <button
               onClick={handleAttack(i)}
-              className="flex justify-between items-center rounded-lg flex-1 px-4 py-2 bg-gradient-to-b from-gray-100 to-gray-200"
+              className="flex flex-1 items-center justify-between rounded-lg bg-gradient-to-b from-gray-100 to-gray-200 px-4 py-2"
             >
-              <p className="capitalize font-semibold">{m.name}</p>
+              <p className="font-semibold capitalize">{m.name}</p>
               <p>{m.power}</p>
             </button>
           </div>

@@ -36,9 +36,9 @@ const InputField = <T extends FieldValues>({
         id={name}
         type={type}
         placeholder={placeholder}
-        className="bg-slate-200 px-4 py-2 rounded"
+        className="rounded bg-slate-200 px-4 py-2"
       />
-      {error && <p className="text-red-500 text-sm">{error.message}</p>}
+      {error && <p className="text-sm text-red-500">{error.message}</p>}
     </div>
   )
 }

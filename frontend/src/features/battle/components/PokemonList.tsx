@@ -39,7 +39,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
   return (
     <div>
       <button
-        className="flex gap-2 items-center px-4 py-2 hover:brightness-90 rounded-lg"
+        className="flex items-center gap-2 rounded-lg px-4 py-2 hover:brightness-90"
         onClick={handeBack}
       >
         <ArrowLeft size={20} />
@@ -58,7 +58,7 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
                 "pointer-events-none animate-pulse":
                   p.id === pokemons[playedIndex].id,
               },
-              "flex items-center rounded-lg flex-1 px-4 py-2 bg-gradient-to-b from-gray-100 to-gray-200"
+              "flex flex-1 items-center rounded-lg bg-gradient-to-b from-gray-100 to-gray-200 px-4 py-2",
             )}
           >
             <Image
@@ -66,10 +66,10 @@ const PokemonList = ({ pokemons, playedIndex }: Prop) => {
               alt={p.name}
               width={100}
               height={100}
-              className="w-20 h-20"
+              className="h-20 w-20"
             ></Image>
             <div>
-              <p className="capitalize font-semibold">{p.name}</p>
+              <p className="font-semibold capitalize">{p.name}</p>
               <p>
                 {p.current_hp} / {p.maxHp}
               </p>

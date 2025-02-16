@@ -27,28 +27,28 @@ const BattleRow = ({ battle }: Props) => {
     <div
       onClick={handleGoBattle()}
       className={clsx(
-        "flex gap-2 p-2 rounded-lg bg-gradient-to-b from-gray-100 to-gray-200",
+        "flex gap-2 rounded-lg bg-gradient-to-b from-gray-100 to-gray-200 p-2",
         {
           "cursor-pointer": isBattleInProgress,
-        }
+        },
       )}
     >
       <div
         className={clsx(
           BATTLE_STATUS[battle.status].color,
-          "flex justify-center items-center p-2 rounded-md"
+          "flex items-center justify-center rounded-md p-2",
         )}
       >
         <Icon size={30} className="opacity-50" />
       </div>
       <div className="w-full">
-        <div className="flex w-full justify-between items-start">
+        <div className="flex w-full items-start justify-between">
           <p className="text-lg font-semibold text-gray-600">
             {battle.player} VS {battle.opponent}
           </p>
           <p className="text-sm">#{battle.id}</p>
         </div>
-        <p className="text-sm text-left">{BATTLE_STATUS[battle.status].name}</p>
+        <p className="text-left text-sm">{BATTLE_STATUS[battle.status].name}</p>
       </div>
     </div>
   )
