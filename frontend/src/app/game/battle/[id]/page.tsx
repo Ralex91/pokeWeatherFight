@@ -1,5 +1,7 @@
 "use client"
 
+import ErrorState from "@/components/ErrorState"
+import LoadingState from "@/components/LoadingState"
 import BattleScreen from "@/features/battle/components/BattleScreen"
 import BottomScreen from "@/features/battle/components/BottomScreen"
 import { useBattle } from "@/features/battle/services"
@@ -26,7 +28,11 @@ const Page = () => {
   }, [isLoading, isSuccess, battle, setGameState, router, isError])
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <LoadingState />
+  }
+
+  if (isError) {
+    return <ErrorState />
   }
 
   return (

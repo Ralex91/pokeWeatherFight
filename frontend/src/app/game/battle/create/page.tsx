@@ -1,5 +1,7 @@
 "use client"
 
+import ErrorState from "@/components/ErrorState"
+import LoadingState from "@/components/LoadingState"
 import { useCreateBattle } from "@/features/battle/services"
 import { useFriend } from "@/features/friend/services"
 import { Friend } from "@/features/friend/types"
@@ -11,7 +13,7 @@ import toast from "react-hot-toast"
 const Page = () => {
   const router = useRouter()
   const [selected, setSelected] = useState<string | null>(null)
-  const { data, isLoading } = useFriend()
+  const { data, isLoading, isError } = useFriend()
   const { mutateAsync } = useCreateBattle()
 
   const handleSelect = (friendId: string) => () => setSelected(friendId)
@@ -26,19 +28,26 @@ const Page = () => {
     router.push(`/game/battle/${id}`)
   }
 
+  if (isLoading) {
+    return <LoadingState />
+  }
+
+  if (isError) {
+    return <ErrorState />
+  }
+
   return (
     <main className="flex-1 flex flex-col my-3 relative">
       <div className="flex-1 space-y-3">
         <h1 className="text-xl font-bold drop-shadow-md mb-1">
           Select a friend
         </h1>
-        {isLoading && <p>Loading...</p>}
         {data?.friends?.map((friend: Friend, i) => (
           <div
             key={i}
             onClick={handleSelect(friend.friend_id)}
             className={clsx(
-              "flex items-center justify-between gap-2 p-2 bg-gradient-to-b from-gray-100 to-gray-200 rounded",
+              "flex items-center cursor-pointer justify-between gap-2 p-2 bg-gradient-to-b from-gray-100 to-gray-200 rounded",
               {
                 "outline outline-2 outline-blue-500":
                   selected === friend.friend_id,

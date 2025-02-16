@@ -1,5 +1,7 @@
 "use client"
 
+import ErrorState from "@/components/ErrorState"
+import LoadingState from "@/components/LoadingState"
 import AddFirend from "@/features/friend/components/AddFirend"
 import FriendRow from "@/features/friend/components/FriendRow"
 import { useFriend } from "@/features/friend/services"
@@ -9,6 +11,14 @@ import { Frown } from "lucide-react"
 const Page = () => {
   const { data, isLoading, isError } = useFriend()
 
+  if (isLoading) {
+    return <LoadingState />
+  }
+
+  if (isError) {
+    return <ErrorState />
+  }
+
   return (
     <main className="flex-1 flex flex-col relative mt-3">
       <div className="flex-1 flex flex-col divide-y-2 divide-gray-200 space-y-3">
@@ -16,9 +26,6 @@ const Page = () => {
           <h2 className="text-xl font-bold drop-shadow-md mb-1">Add Friend</h2>
           <AddFirend />
         </div>
-
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error</p>}
 
         {!!data?.requests?.length && (
           <div>

@@ -1,5 +1,7 @@
 "use client"
 
+import ErrorState from "@/components/ErrorState"
+import LoadingState from "@/components/LoadingState"
 import BattleRow from "@/features/battle/components/BattleRow"
 import { useBattles } from "@/features/battle/services"
 import { BattleStuts } from "@/features/battle/types"
@@ -7,12 +9,21 @@ import { Plus } from "lucide-react"
 import Link from "next/link"
 
 const Page = () => {
-  const { data: battles } = useBattles()
+  const { data: battles, isLoading, isError } = useBattles()
 
   const activeBattles = battles?.filter(
     (battle) => battle.status === BattleStuts.IN_PROGRESS
   )
   const finishedBattles = battles?.filter((battle) => !!battle.winner)
+
+  if (isLoading) {
+    return <LoadingState />
+  }
+
+  if (isError) {
+    return <ErrorState />
+  }
+
   return (
     <main className="flex-1 flex flex-col my-3 gap-3 relative">
       <div className="flex-1 divide-y-2 divide-gray-200">

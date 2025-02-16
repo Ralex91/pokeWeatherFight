@@ -1,5 +1,7 @@
 "use client"
 
+import ErrorState from "@/components/ErrorState"
+import LoadingState from "@/components/LoadingState"
 import { usePokemon, usePokemonTypes } from "@/features/pokemon/services"
 import PokemonCard from "@/features/team/components/PokemonCard"
 import { useUpdateTeam } from "@/features/team/services"
@@ -56,6 +58,7 @@ const Page = () => {
           >
             {isLoadingTypes && <option>Loading...</option>}
             {isErrorTypes && <option>Error</option>}
+
             <option value="">All</option>
             {pokemonTypes?.map((type) => (
               <option key={type} value={type} className="capitalize">
@@ -65,9 +68,11 @@ const Page = () => {
           </select>
         </div>
       </div>
+
+      {isPokemonsLoading && <LoadingState />}
+      {isPokemonsError && <ErrorState />}
+
       <div className="grid grid-cols-2 gap-2">
-        {isPokemonsLoading && <p>Loading...</p>}
-        {isPokemonsError && <p>Error</p>}
         {pokemons?.map((p) => (
           <PokemonCard onClick={handleSelect(p.id)} key={p.id} pokemon={p} />
         ))}
