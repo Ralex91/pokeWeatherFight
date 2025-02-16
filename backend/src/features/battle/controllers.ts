@@ -45,17 +45,17 @@ router.get("/:battleId", async (c) => {
   const { battleId } = c.req.param()
 
   if (!Number(battleId)) {
-    return c.json({ message: "Invalid battle id" }, 400)
+    return c.json({ error: "Invalid battle id" }, 400)
   }
 
   const battle = await getBattle(Number(battleId))
 
   if (!battle) {
-    return c.json({ message: "Battle not found" }, 404)
+    return c.json({ error: "Battle not found" }, 404)
   }
 
   if (battle.player.id !== c.get("user")?.id) {
-    return c.json({ message: "Unauthorized" }, 401)
+    return c.json({ error: "Unauthorized" }, 401)
   }
 
   return c.json(battle)
@@ -77,7 +77,7 @@ router.post(
     const battle = await getBattle(Number(battleId))
 
     if (!battle) {
-      return c.json({ message: "Battle not found" }, 404)
+      return c.json({ error: "Battle not found" }, 404)
     }
 
     if (battle.player.id !== user.id) {
