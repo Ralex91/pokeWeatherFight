@@ -45,20 +45,17 @@ const getPlayerTeam = async (userId: string): Promise<TeamPokemon[]> => {
     .execute()
 }
 
-const addPlayerToBattle = async (
+const formatPokemonToBattle = (
   battleId: number,
   userId: string,
   pokemons: TeamPokemon[]
-) => {
-  const battlePokemons = pokemons.map((pokemon) => ({
+) =>
+  pokemons.map((pokemon) => ({
     battle_id: battleId,
     pokemon_id: pokemon.id,
     user_id: userId,
     current_hp: pokemon.maxHp,
   }))
-
-  await db.insertInto("battle_pokemon").values(battlePokemons).execute()
-}
 
 export const createBattle = async (playerId: string, opponentId: string) => {
   const [player1Team, player2Team] = await Promise.all([
@@ -71,36 +68,40 @@ export const createBattle = async (playerId: string, opponentId: string) => {
   }
 
   const battleId = await db.transaction().execute(async (trx) => {
-    const [battle] = await trx
+    const battle = await trx
       .insertInto("battle")
       .values({
         status: BattleStatus.PENDING,
       })
       .returning("id")
+      .executeTakeFirst()
+
+    if (!battle) {
+      throw new Error("Failed to create battle")
+    }
+
+    await trx
+      .insertInto("battle_player")
+      .values([
+        {
+          battle_id: battle.id,
+          user_id: playerId,
+          player_type: PlayerType.PLAYER,
+        },
+        {
+          battle_id: battle.id,
+          user_id: opponentId,
+          player_type: PlayerType.OPPONENT,
+        },
+      ])
       .execute()
 
-    await Promise.all([
-      trx
-        .insertInto("battle_player")
-        .values([
-          {
-            battle_id: battle.id,
-            user_id: playerId,
-            player_type: PlayerType.PLAYER,
-          },
-          {
-            battle_id: battle.id,
-            user_id: opponentId,
-            player_type: PlayerType.OPPONENT,
-          },
-        ])
-        .execute(),
-    ])
+    const battlePokemons = [
+      ...formatPokemonToBattle(battle.id, playerId, player1Team),
+      ...formatPokemonToBattle(battle.id, opponentId, player2Team),
+    ]
 
-    await Promise.all([
-      addPlayerToBattle(battle.id, playerId, player1Team),
-      addPlayerToBattle(battle.id, opponentId, player2Team),
-    ])
+    await trx.insertInto("battle_pokemon").values(battlePokemons).execute()
 
     return battle.id
   })
