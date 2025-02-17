@@ -7,14 +7,16 @@ import PokemonCard from "@/features/team/components/PokemonCard"
 import { useUpdateTeam } from "@/features/team/services"
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import toast from "react-hot-toast"
+import { useDebounceCallback } from 'usehooks-ts'
 
 const Page = () => {
   const index = Number(useParams().index)
   const router = useRouter()
   const [type, setType] = useState<string | null>(null)
   const [search, setSearch] = useState<string | null>(null)
+  const debounced = useDebounceCallback(setSearch, 300)
 
   const {
     data: pokemons,
@@ -38,6 +40,8 @@ const Page = () => {
     toast.success("Pokemon added to team")
     router.push(`/game/team`)
   }
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => debounced(e.target.value)
+  const handleChangeType = (e: ChangeEvent<HTMLSelectElement>) => setType(e.target.value)
 
   return (
     <main className="relative mb-3 flex flex-1 flex-col">
@@ -48,13 +52,13 @@ const Page = () => {
             className="rounded bg-slate-200 px-4 py-2"
             type="text"
             placeholder="Search"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearch}
           />
           <select
             className="rounded bg-slate-200 px-4 py-2 capitalize"
             name="type"
             id="type"
-            onChange={(e) => setType(e.target.value)}
+            onChange={handleChangeType}
           >
             {isLoadingTypes && <option>Loading...</option>}
             {isErrorTypes && <option>Error</option>}
