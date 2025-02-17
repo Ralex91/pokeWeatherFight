@@ -1,9 +1,10 @@
+import { loggedCheck } from "@/features/auth/middlewares.ts"
+import { auth } from "@/features/auth/services.ts"
 import { HonoContext } from "@/types/hono.ts"
 import { zValidator } from "@hono/zod-validator"
 import { Hono } from "hono"
 import { z } from "zod"
-import { loggedCheck } from "../auth/middlewares.ts"
-import { auth } from "../auth/services.ts"
+import { TEAM_SIZE } from "../battle/constants.ts"
 import {
   checkPokemonInTeam,
   deleteFromTeam,
@@ -27,7 +28,7 @@ router.patch(
   zValidator(
     "json",
     z.object({
-      index: z.number().min(1).max(6),
+      index: z.number().min(1).max(TEAM_SIZE),
       pokemonId: z.number(),
     })
   ),
@@ -52,7 +53,7 @@ router.delete(
   zValidator(
     "json",
     z.object({
-      index: z.number().min(1).max(6),
+      index: z.number().min(1).max(TEAM_SIZE),
     })
   ),
   async (c) => {

@@ -1,22 +1,7 @@
 import { Move, Pokemon } from "@/features/pokemon/types.ts"
+import { WEATHER_ATTACK_MAP } from "./constants.ts"
 import { updateBattleWinner, updatePokemonIndex } from "./repositories.ts"
-import { Battle, Player, WeatherAttackMap, WeatherEffect } from "./types.ts"
-
-export const TEAM_SIZE = 6
-
-export const WEATHER_ATTACK_MAP: WeatherAttackMap[] = [
-  {
-    name: "rain",
-    codes: [61, 63, 65, 80, 81, 82],
-    effects: { fire: -10, water: +10 },
-  },
-  { name: "sun", codes: [0, 1], effects: { fire: +10, ice: -10 } },
-  {
-    name: "snow",
-    codes: [71, 73, 75, 85, 86],
-    effects: { ice: +10, grass: -10 },
-  },
-]
+import { Battle, Player, WeatherEffect } from "./types.ts"
 
 export const addMessage = (
   gameState: Battle,
@@ -43,7 +28,6 @@ export const calculateDamage = (
 ) => {
   let power = move.power
   const { type } = move
-
   if (weatherEffects && weatherEffects[type]) {
     const effect = weatherEffects[type]
 
