@@ -14,7 +14,7 @@ PokeWeatherFight is a web application that allows you to play a game of Pokémo
 - Clone the repository
 
   ```bash
-  git clone https://github.com/Ralex91/pokeWeaterFight.git
+  git clone https://github.com/Ralex91/pokeWeatherFight.git
   cd poke-weather-fight
   ```
 
